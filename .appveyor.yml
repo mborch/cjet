@@ -11,7 +11,8 @@ configuration:
 platform: 
   - Win32
   
-build_script:
-- cmd: msbuild vstudio\cjet binary and tests.sln /p:VisualStudioVersion=14.0 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+environment:
+  VisualStudioVersion: 14.0.25420.1
 
- 
+build:
+  project: vstudio\cjet binary and tests.sln
