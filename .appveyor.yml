@@ -11,8 +11,7 @@ configuration:
 platform: 
   - Win32
   
-environment:
-  VisualStudioVersion: 15.0
+VisualStudioVersion: 14.0
 
 build:
   project: vstudio\cjet binary and tests.sln
