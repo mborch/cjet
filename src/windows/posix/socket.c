@@ -25,39 +25,64 @@
 */
 
 #include <io.h>
+#include <errno.h>
+#include <winsock2.h>
 #include <malloc.h>
 
-#include "windows/uio.h"
 #include "compiler.h"
 #include "socket.h"
 
 
 ssize_t socket_read(socket_type sock, void *buf, size_t count)
 {
-	return read(sock, buf, count);
+	ssize_t recv_len = SOCKET_ERROR;
+
+	if (likely(count > 0))
+	{
+		recv_len = recv(sock, buf, count, 0);
+		if (recv_len == SOCKET_ERROR && (WSAGetLastError() == WSAEWOULDBLOCK))
+		{
+			errno = EWOULDBLOCK;
+		}
+	}
+
+	return recv_len;
 }
 
 
 ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t count)
 {
-	ssize_t ret = 0;
+	DWORD send_len = -1;
 
 	if (likely(count > 0))
 	{
-		struct iovec *iov = alloca(count * sizeof(unsigned int));
+		WSABUF *buf = alloca(count * sizeof(WSABUF));
 		for (unsigned int i = 0; i < count; i++)
 		{
-			iov[i].iov_base = (void *)io_vec[i].iov_base;
-			iov[i].iov_len = io_vec[i].iov_len;
+			buf[i].buf = (CHAR *)io_vec[i].iov_base;
+			buf[i].len = io_vec[i].iov_len;
 		}
-		ret = writev(sock, iov, sizeof(iov) / sizeof(struct iovec));
+
+		if (WSASend(sock, buf, sizeof(buf) / sizeof(WSABUF), &send_len, 0, NULL, NULL) == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() == WSAEWOULDBLOCK)
+			{
+				errno = EWOULDBLOCK;
+			}
+
+			send_len = -1;
+		}
 	}
+
+	printf("\n");
+	printf("%d", send_len);
+	printf("\n");
 	
-	return ret;
+	return send_len;
 }
 
 
 int socket_close(socket_type sock)
 {
-	return close(sock);
+	return closesocket(sock);
 }

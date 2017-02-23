@@ -26,6 +26,8 @@
 
 #if defined(_MSC_VER)
 #include <malloc.h>
+#include <WinSock2.h>
+#define EAGAIN	EWOULDBLOCK
 #endif
 
 #include <errno.h>
@@ -69,7 +71,7 @@ static int send_buffer(struct buffered_socket *bs)
 }
 
 /**
- * @brief go_reading reads until thre reader()-function returns an error or the read_callback() closes the buffered_socket.
+ * @brief go_reading reads until the reader()-function returns an error or the read_callback() closes the buffered_socket.
  * @param bs The buffered_socket to operate on.
  * @return 0 if the buffered_socket was closed either by the peer or in the read callback of the buffered_socket.
  * @return BS_IO_WOULD_BLOCK is returned if the internal buffer could not be filled but the
@@ -338,7 +340,8 @@ int buffered_socket_close(void *context)
 int buffered_socket_writev(void *this_ptr, struct socket_io_vector *io_vec, unsigned int count)
 {
 	struct buffered_socket *bs = (struct buffered_socket *)this_ptr;
-	struct socket_io_vector *iov = alloca(count * sizeof(unsigned int) + 1);
+	unsigned int sizeof_iovector = sizeof(struct socket_io_vector);
+	struct socket_io_vector *iov = alloca(count * sizeof_iovector + sizeof_iovector);
 	size_t to_write = bs->to_write;
 	iov[0].iov_base = bs->write_buffer;
 	iov[0].iov_len = bs->to_write;

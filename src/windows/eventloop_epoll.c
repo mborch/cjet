@@ -38,7 +38,7 @@
 static enum eventloop_return handle_events(int num_events, struct epoll_event *events)
 {
 	if (unlikely(num_events == -1)) {
-		if (errno == EINTR) {
+		if (errno == WSAEINTR) {
 			return EL_CONTINUE_LOOP;
 		}
 		else {
@@ -85,8 +85,7 @@ static enum eventloop_return handle_events(int num_events, struct epoll_event *e
 int eventloop_epoll_init(void *this_ptr)
 {
 	struct eventloop_epoll *loop = this_ptr;
-	//loop->epoll_fd = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
-	loop->epoll_fd = epoll_create(1);
+	loop->epoll_fd = epoll_create(32);
 	if (loop->epoll_fd < 0) {
 		return -1;
 	}
@@ -113,15 +112,6 @@ int eventloop_epoll_run(const void *this_ptr, const int *go_ahead)
 			break;
 		}
 	}
-	/*
-	DWORD number_bytes;
-	ULONG_PTR *perHandleKey;
-	OVERLAPPED ol;
-	if (GetQueuedCompletionStatus(loop->epoll_fd, &number_bytes, (PULONG_PTR)&perHandleKey, &ol, INFINITE) != 0) {
-	return -1;
-	break;
-	}
-	*/
 	return 0;
 }
 
@@ -138,12 +128,6 @@ enum eventloop_return eventloop_epoll_add(const void *this_ptr, const struct io_
 		log_err("epoll_ctl failed!\n");
 		return EL_ABORT_LOOP;
 	}
-	/*
-	if (unlikely(CreateIoCompletionPort(ev->sock, loop->epoll_fd, 0, 0) == NULL)) {
-	log_err("eventloop_epoll_add failed!\n");
-	return EL_ABORT_LOOP;
-	}
-	*/
 	return EL_CONTINUE_LOOP;
 }
 

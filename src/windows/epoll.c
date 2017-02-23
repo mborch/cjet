@@ -118,7 +118,10 @@ int epoll_ctl(int epfd, int opcode, int fd, struct epoll_event* event)
 {
 	int error = ENOENT;
 	struct epoll_fd* epoll_fd = (struct epoll_fd*)epfd;
-	EnterCriticalSection(&epoll_fd->lock);
+	if (!TryEnterCriticalSection(&epoll_fd->lock))
+	{
+		return -1;
+	}
 	switch (opcode) {
 	case EPOLL_CTL_ADD:
 		error = epoll_ctl_add(epoll_fd, fd, event);

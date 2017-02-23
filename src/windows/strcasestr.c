@@ -37,6 +37,7 @@ http://git.enlightenment.org/legacy/evil.git/tree/src/lib/evil_string.c?id=eeadd
 #include <ctype.h>
 
 char *strcasestr(const char *haystack, const char *needle) {
+	printf("strcasestr");
    size_t length_needle;
    size_t length_haystack;
    size_t i;

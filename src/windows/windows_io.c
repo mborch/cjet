@@ -58,40 +58,19 @@ static int go_ahead = 1;
 
 static int set_fd_non_blocking(SOCKET fd)
 {
-	int fd_flags;
-
-	u_long mode = 1; /* non-blocking */
-	fd_flags = ioctlsocket(fd, FIONBIO, &mode);
+	u_long mode = 1; // non-blocking
+	int fd_flags = ioctlsocket(fd, FIONBIO, &mode);
 	if (unlikely(fd_flags != 0)) {
 		log_err("ioctlsocket error!\n");
 		return -1;
 	}
-	
+
 	return 0;
 }
 
 static int configure_keepalive(SOCKET fd)
 {
-	int opt = 12;
-	/*
-	if (setsockopt(fd, IPPROTO_TCP,  TCP_KEEPIDLE, &opt, sizeof(opt)) != 0) {
-		log_err("error setting socket option %s\n", "TCP_KEEPIDLE");
-		return -1;
-	}
-	
-	opt = 3;
-	if (setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &opt, sizeof(opt)) != 0) {
-		log_err("error setting socket option %s\n", "TCP_KEEPINTVL");
-		return -1;
-	}
-
-	opt = 2;
-	if (setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT, &opt, sizeof(opt)) != 0) {
-		log_err("error setting socket option %s\n", "TCP_KEEPCNT");
-		return -1;
-	}
-	*/
-	opt = 1;
+	int opt = 1;
 	if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt)) != 0) {
 		log_err("error setting socket option %s\n", "SO_KEEPALIVE");
 		return -1;
@@ -296,15 +275,14 @@ static int start_server(struct io_event *ev)
 	}
 }
 
-static SOCKET create_server_socket_all_interfaces(int port)
+static int server_startup()
 {
 	WSADATA wsaData = { 0 };
-	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-	if (iResult != 0) {
-		log_err(L"WSAStartup failed: %d\n", iResult);
-		return INVALID_SOCKET;
-	}
+	return WSAStartup(MAKEWORD(2, 2), &wsaData);
+}
 
+static SOCKET create_server_socket_all_interfaces(int port)
+{
 	SOCKET listen_fd = socket(AF_INET6, SOCK_STREAM, 0);
 	if (unlikely(listen_fd == INVALID_SOCKET)) {
 		log_err("Could not create listen socket!\n");
@@ -347,8 +325,6 @@ error:
 static SOCKET create_server_socket_bound(const char *bind_addr, int port)
 {
 	struct addrinfo hints;
-	struct addrinfo *servinfo;
-
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -357,10 +333,11 @@ static SOCKET create_server_socket_bound(const char *bind_addr, int port)
 	char server_port_string[6];
 	sprintf(server_port_string, "%d", port);
 
+	struct addrinfo *servinfo;
 	int ret = getaddrinfo(bind_addr, server_port_string, &hints, &servinfo);
 	if (ret != 0) {
 		log_err("Could not set resolve address to bind!");
-		return -1;
+		return INVALID_SOCKET;
 	}
 
 	SOCKET listen_fd = NULL;
@@ -403,13 +380,13 @@ static SOCKET create_server_socket_bound(const char *bind_addr, int port)
 
 	if ((listen_fd == INVALID_SOCKET) || (rp == NULL)) {
 		log_err("Could not bind to address!");
-		return -1;
+		return INVALID_SOCKET;
 	}
 
 	if (unlikely(listen(listen_fd, CONFIG_LISTEN_BACKLOG) != 0)) {
 		log_err("listen failed!\n");
 		closesocket(listen_fd);
-		return -1;
+		return INVALID_SOCKET;
 	}
 
 	return listen_fd;
@@ -438,13 +415,7 @@ static int register_signal_handler(void)
 		signal(SIGTERM, SIG_DFL);
 		return -1;
 	}
-	/*
-	//TODO
-	if (signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
-		log_err("ignoring SIGPIPE failed!\n");
-		return -1;
-	}
-	*/
+
 	return 0;
 }
 
@@ -685,6 +656,12 @@ int run_io(struct eventloop *loop, const struct cmdline_config *config)
 		},
 	};
 
+	int startup = server_startup();
+	if (startup != 0) {
+		log_err(L"WSAStartup failed: %d\n", startup);
+		return -1;
+	}
+
 	if (config->bind_local_only) {
 		ret = run_io_only_local(loop, config, handler, ARRAY_SIZE(handler));
 	}
@@ -693,6 +670,7 @@ int run_io(struct eventloop *loop, const struct cmdline_config *config)
 	}
 
 	loop->destroy(loop->this_ptr);
+	WSACleanup();
 eventloop_init_failed:
 	unregister_signal_handler();
 	return ret;

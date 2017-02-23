@@ -55,7 +55,7 @@ struct socket_io_vector {
  * This functions must be implemented in an OS specific way.
  */
 ssize_t socket_read(socket_type sock, void *buf, size_t count);
-ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, unsigned int count);
+ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t count);
 int socket_close(socket_type sock);
 
 #ifdef __cplusplus

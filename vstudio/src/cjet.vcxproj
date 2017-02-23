@@ -340,7 +340,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\src\windows\strcasestr.c" />
     <ClCompile Include="..\..\src\windows\syslogc.c" />
     <ClCompile Include="..\..\src\windows\timer_windows.c" />
-    <ClCompile Include="..\..\src\windows\uio.c" />
     <ClCompile Include="..\..\src\windows\windows_io.c" />
     <ClCompile Include="C:\Git\cjet\src\alloc.c">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x349e04cb -std=c99 %(AdditionalOptions)</AdditionalOptions>

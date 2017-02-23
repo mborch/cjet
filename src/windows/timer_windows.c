@@ -47,6 +47,7 @@ struct itimerspec
 
 static struct itimerspec convert_timeoutns_to_itimerspec(uint64_t timeout)
 {
+	printf("convert_timeoutns_to_itimerspec");
 	struct itimerspec ts;
 	time_t seconds = timeout / NSECONDS_IN_SECONDS;
 	long nanos = timeout - (seconds * NSECONDS_IN_SECONDS);
@@ -60,6 +61,7 @@ static struct itimerspec convert_timeoutns_to_itimerspec(uint64_t timeout)
 
 static enum eventloop_return timer_read(struct io_event *ev)
 {
+	printf("timer_read");
 	struct cjet_timer *timer = (struct cjet_timer *)container_of(ev, struct cjet_timer, ev);
 
 	uint64_t number_of_expirations;
@@ -76,6 +78,7 @@ static enum eventloop_return timer_read(struct io_event *ev)
 
 static enum eventloop_return timer_error(struct io_event *ev)
 {
+	printf("timer_error");
 	// TODO: maybe call registered callback with error parameter
 	(void)ev;
 	return EL_CONTINUE_LOOP;
@@ -83,6 +86,7 @@ static enum eventloop_return timer_error(struct io_event *ev)
 
 static int timer_start(void *this_ptr, uint64_t timeout_ns, timer_handler handler, void *handler_context)
 {
+	printf("timer_start");
 	struct cjet_timer *timer = (struct cjet_timer *)this_ptr;
 	timer->handler = handler;
 	timer->handler_context = handler_context;
@@ -93,6 +97,7 @@ static int timer_start(void *this_ptr, uint64_t timeout_ns, timer_handler handle
 
 static int timer_cancel(void *this_ptr)
 {
+	printf("timer_cancel");
 	struct cjet_timer *timer = (struct cjet_timer *)this_ptr;
 	static struct itimerspec timeout;
 	memset(&timeout, 0x0, sizeof(timeout));
@@ -110,6 +115,7 @@ static int timer_cancel(void *this_ptr)
 
 int cjet_timer_init(struct cjet_timer *timer, struct eventloop *loop)
 {
+	printf("cjet_timer_init");
 	timer->ev.loop = loop;
 	int ret = 0;//todo timerfd_create(CLOCK_MONOTONIC, O_NONBLOCK);
 	if (unlikely(ret == -1)) {
@@ -135,6 +141,7 @@ int cjet_timer_init(struct cjet_timer *timer, struct eventloop *loop)
 
 void cjet_timer_destroy(struct cjet_timer *timer)
 {
+	printf("cjet_timer_destroy");
 	timer->ev.loop->remove(timer->ev.loop, &timer->ev);
 	socket_close(timer->ev.sock);
 }

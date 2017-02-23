@@ -23,6 +23,8 @@
 
 void *memmem(const void *haystack, size_t haystackLen, const void *needle, size_t needleLen)
 {
+	printf("memmem");
+
 	if (needleLen == 0)
 	{
 		return (void *)haystack;
