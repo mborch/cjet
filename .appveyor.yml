@@ -1,12 +1,13 @@
-#---------------------------------#
-#    environment configuration    #
-#---------------------------------#
+version: "{build}"
 
-# Build worker image (VM template)
-image: Visual Studio 2015
+os: Visual Studio 2015
 
-# build Configuration, i.e. Debug, Release, etc.
-configuration: Release
+configuration:
+  - Release
+
+platform: 
+  - Win32
 
 build:
-  project: vstudio\cjet binary and tests.sln      # path to Visual Studio solution or project
+  project: vstudio\ALL_BUILD.vcxproj
+
