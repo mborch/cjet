@@ -1,4 +1,4 @@
-version: 1.1.{build}
+version: 1.1.0
 
 pull_requests:
   do_not_increment_build_number: true
@@ -11,8 +11,7 @@ configuration:
 platform: 
   - Win32
   
-environment:
-  VisualStudioVersion: 14.0
+build_script:
+- cmd: msbuild vstudio\cjet binary and tests.sln /p:VisualStudioVersion=14.0 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
-build:
-  project: vstudio\cjet binary and tests.sln
+ 
