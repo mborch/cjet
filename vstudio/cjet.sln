@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cjet", "src\cjet.vcxproj", "{52AD234F-475D-4D77-9B56-0213D88AECE1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "src\tests\tests.vcxproj", "{6A503595-A0F9-49ED-BAD8-B1D7EE8C5D5B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -17,10 +15,6 @@ Global
 		{52AD234F-475D-4D77-9B56-0213D88AECE1}.Debug|x86.Build.0 = Debug|Win32
 		{52AD234F-475D-4D77-9B56-0213D88AECE1}.Release|x86.ActiveCfg = Release|Win32
 		{52AD234F-475D-4D77-9B56-0213D88AECE1}.Release|x86.Build.0 = Release|Win32
-		{6A503595-A0F9-49ED-BAD8-B1D7EE8C5D5B}.Debug|x86.ActiveCfg = Debug|Win32
-		{6A503595-A0F9-49ED-BAD8-B1D7EE8C5D5B}.Debug|x86.Build.0 = Debug|Win32
-		{6A503595-A0F9-49ED-BAD8-B1D7EE8C5D5B}.Release|x86.ActiveCfg = Release|Win32
-		{6A503595-A0F9-49ED-BAD8-B1D7EE8C5D5B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

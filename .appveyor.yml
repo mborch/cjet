@@ -15,6 +15,6 @@ environment:
   VisualStudioVersion: 14.0.25420.1
 
 build:
-  verbosity: quiet
+  verbosity: minimal
   project: vstudio\cjet.sln
   
