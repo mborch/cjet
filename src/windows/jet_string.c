@@ -27,10 +27,10 @@
 #include <stddef.h>
 #include <string.h>
 
+#include "compiler.h"
+#include "jet_string.h"
 #include "windows/memmem.h"
 #include "windows/strcasestr.h"
-
-#include "jet_string.h"
 
 const char *jet_strcasestr(const char *haystack, const char *needle)
 {
@@ -50,4 +50,15 @@ int jet_strcasecmp(const char *s1, const char *s2)
 int jet_strncasecmp(const char *s1, const char *s2, size_t n)
 {
 	return _strnicmp(s1, s2, n);
+}
+
+char *duplicate_string(const char *s)
+{
+	char *ptr = cjet_malloc(strlen(s) + 1);
+	if (unlikely(ptr == NULL)) {
+		return NULL;
+	}
+
+	strcpy(ptr, s);
+	return ptr;
 }

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6A503595-A0F9-49ED-BAD8-B1D7EE8C5D5B}</ProjectGuid>
+    <RootNamespace>tests</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\boost_1_63_0;$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\boost_1_63_0;$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\tests\access_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\alloc_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\auth_file_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\auth_stub.cpp" />
+    <ClCompile Include="..\..\..\src\tests\base64_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\buffered_socket_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\combined_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\config_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\fetch_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\http_connection_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\info_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\log.cpp" />
+    <ClCompile Include="..\..\..\src\tests\method_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\parse_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\peer_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\response_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\router_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\state_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\string_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\websocket_frame_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\websocket_peer_test.cpp" />
+    <ClCompile Include="..\..\..\src\tests\websocket_test.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

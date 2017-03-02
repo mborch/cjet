@@ -9,10 +9,10 @@ configuration:
   - Release
 
 platform: 
-  - Win32
+  - x86
   
 environment:
   VisualStudioVersion: 14.0.25420.1
 
 build:
-  project: vstudio\cjet binary and tests.sln
+  project: vstudio\cjet.sln

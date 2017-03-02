@@ -9,127 +9,62 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="MinSizeRel|Win32">
-      <Configuration>MinSizeRel</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="RelWithDebInfo|Win32">
-      <Configuration>RelWithDebInfo</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{0C7625C5-EB9B-35AA-BC09-6DE7BDEC4669}</ProjectGUID>
-    <Keyword>Win32Proj</Keyword>
-    <Platform>Win32</Platform>
-    <ProjectName>cjet</ProjectName>
+    <ProjectGuid>{52AD234F-475D-4D77-9B56-0213D88AECE1}</ProjectGuid>
+    <RootNamespace>cjet</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets">
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)src\Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cjet.dir\Debug\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cjet</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)src\Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cjet.dir\Release\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cjet</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(SolutionDir)src\MinSizeRel\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">cjet.dir\MinSizeRel\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">cjet</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(SolutionDir)src\RelWithDebInfo\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">cjet.dir\RelWithDebInfo\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">cjet</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</GenerateManifest>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\GnuWin32\include;$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows\crypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>
+      </SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows\crypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
       <CompileAs>CompileAsC</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <Optimization>Disabled</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;_DEBUG;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;_DEBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)\..\src\windows\crypt\lib</AdditionalLibraryDirectories>
+    </Link>
     <Link>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ws2_32.lib;libcrypt.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)\..\src\windows\crypt\lib</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>No</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Git/cjet/vstudio/src/Debug/cjet.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Git/cjet/vstudio/src/Debug/cjet.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
-      <Version>
-      </Version>
-      <EntryPointSymbol>
-      </EntryPointSymbol>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -137,195 +72,56 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows\crypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>Release/</AssemblerListingLocation>
-      <CompileAs>CompileAsC</CompileAs>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ws2_32.lib;libcrypt.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)\..\src\windows\crypt\lib</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>No</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Git/cjet/vstudio/src/Release/cjet.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Git/cjet/vstudio/src/Release/cjet.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
-      <Version>
-      </Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
-    <ClCompile>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows\crypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
-      <CompileAs>CompileAsC</CompileAs>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <Optimization>MinSpace</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
-    <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ws2_32.lib;libcrypt.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)\..\src\windows\crypt\lib</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>No</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Git/cjet/vstudio/src/MinSizeRel/cjet.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Git/cjet/vstudio/src/MinSizeRel/cjet.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
-      <Version>
-      </Version>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
-    <ClCompile>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows\crypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
-      <CompileAs>CompileAsC</CompileAs>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>
-      </ExceptionHandling>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <Optimization>MaxSpeed</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>
+      </SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)..\src;$(SolutionDir)..\src\windows\crypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat />
+      <ExceptionHandling>false</ExceptionHandling>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_FORTIFY_SOURCE=2;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>C:\Git\cjet\src;C:\Git\cjet\vstudio\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ws2_32.lib;libcrypt.lib</AdditionalDependencies>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)\..\src\windows\crypt\lib</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>Debug</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Git/cjet/vstudio/src/RelWithDebInfo/cjet.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Git/cjet/vstudio/src/RelWithDebInfo/cjet.pdb</ProgramDataBaseFile>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ws2_32.lib;libcrypt.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
-      <Version>
-      </Version>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Git\cjet\src\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Git/cjet/src/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HC:/Git/cjet -BC:/Git/cjet/vstudio --check-stamp-file C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Git/cjet/src/CMakeLists.txt;C:\Git\cjet\src\CMakeLists.txt;C:\Git\cjet\cmake\version.cmake;C:\Git\cjet\cmake\defaults.cmake;C:\Git\cjet\cmake\generate_doxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Git\cjet\src\linux\config\os_config.h.in;C:\Git\cjet\src\cjet_config.h.in;C:\Git\cjet\src\version.h.in;C:\Git\cjet\cmake\hardening.cmake;C:\Git\cjet\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Git/cjet/src/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HC:/Git/cjet -BC:/Git/cjet/vstudio --check-stamp-file C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Git/cjet/src/CMakeLists.txt;C:\Git\cjet\src\CMakeLists.txt;C:\Git\cjet\cmake\version.cmake;C:\Git\cjet\cmake\defaults.cmake;C:\Git\cjet\cmake\generate_doxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Git\cjet\src\linux\config\os_config.h.in;C:\Git\cjet\src\cjet_config.h.in;C:\Git\cjet\src\version.h.in;C:\Git\cjet\cmake\hardening.cmake;C:\Git\cjet\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Git/cjet/src/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HC:/Git/cjet -BC:/Git/cjet/vstudio --check-stamp-file C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Git/cjet/src/CMakeLists.txt;C:\Git\cjet\src\CMakeLists.txt;C:\Git\cjet\cmake\version.cmake;C:\Git\cjet\cmake\defaults.cmake;C:\Git\cjet\cmake\generate_doxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Git\cjet\src\linux\config\os_config.h.in;C:\Git\cjet\src\cjet_config.h.in;C:\Git\cjet\src\version.h.in;C:\Git\cjet\cmake\hardening.cmake;C:\Git\cjet\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Git/cjet/src/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HC:/Git/cjet -BC:/Git/cjet/vstudio --check-stamp-file C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Git/cjet/src/CMakeLists.txt;C:\Git\cjet\src\CMakeLists.txt;C:\Git\cjet\cmake\version.cmake;C:\Git\cjet\cmake\defaults.cmake;C:\Git\cjet\cmake\generate_doxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Git\cjet\src\linux\config\os_config.h.in;C:\Git\cjet\src\cjet_config.h.in;C:\Git\cjet\src\version.h.in;C:\Git\cjet\cmake\hardening.cmake;C:\Git\cjet\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Git\cjet\vstudio\src\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\..\src\alloc.c" />
+    <ClCompile Include="..\..\src\authenticate.c" />
+    <ClCompile Include="..\..\src\base64.c" />
+    <ClCompile Include="..\..\src\buffered_socket.c" />
+    <ClCompile Include="..\..\src\config.c" />
+    <ClCompile Include="..\..\src\element.c" />
+    <ClCompile Include="..\..\src\fetch.c" />
+    <ClCompile Include="..\..\src\groups.c" />
+    <ClCompile Include="..\..\src\http-parser\http_parser.c" />
+    <ClCompile Include="..\..\src\http_connection.c" />
+    <ClCompile Include="..\..\src\http_server.c" />
+    <ClCompile Include="..\..\src\info.c" />
+    <ClCompile Include="..\..\src\json\cJSON.c" />
+    <ClCompile Include="..\..\src\parse.c" />
+    <ClCompile Include="..\..\src\peer.c" />
+    <ClCompile Include="..\..\src\response.c" />
+    <ClCompile Include="..\..\src\router.c" />
+    <ClCompile Include="..\..\src\sha1\sha1.c" />
+    <ClCompile Include="..\..\src\socket_peer.c" />
+    <ClCompile Include="..\..\src\table.c" />
+    <ClCompile Include="..\..\src\timer.c" />
+    <ClCompile Include="..\..\src\websocket.c" />
+    <ClCompile Include="..\..\src\websocket_peer.c" />
     <ClCompile Include="..\..\src\windows\epoll.c" />
     <ClCompile Include="..\..\src\windows\eventloop_epoll.c" />
     <ClCompile Include="..\..\src\windows\getopt.c" />
@@ -341,156 +137,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\src\windows\syslogc.c" />
     <ClCompile Include="..\..\src\windows\timer_windows.c" />
     <ClCompile Include="..\..\src\windows\windows_io.c" />
-    <ClCompile Include="C:\Git\cjet\src\alloc.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x349e04cb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x349e04cb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x349e04cb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x349e04cb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\authenticate.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x6e540180 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x6e540180 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x6e540180 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x6e540180 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\base64.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0xa3c19e60 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0xa3c19e60 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0xa3c19e60 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0xa3c19e60 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\buffered_socket.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x203dad7d -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x203dad7d -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x203dad7d -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x203dad7d -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\config.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x68f12a82 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x68f12a82 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x68f12a82 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x68f12a82 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\element.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x733477cc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x733477cc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x733477cc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x733477cc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\fetch.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x52953d68 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x52953d68 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x52953d68 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x52953d68 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\groups.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x7a640dcb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x7a640dcb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x7a640dcb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x7a640dcb -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\http-parser\http_parser.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x4b6d71a8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x4b6d71a8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x4b6d71a8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x4b6d71a8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\http_connection.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x906d55c2 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x906d55c2 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x906d55c2 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x906d55c2 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\http_server.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0xd6020125 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0xd6020125 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0xd6020125 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0xd6020125 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\info.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x5ae19926 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x5ae19926 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x5ae19926 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x5ae19926 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\jet_string.c">
-      <ObjectFileName>$(IntDir)/jet_string.c.obj</ObjectFileName>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x4f81827e -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x4f81827e -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x4f81827e -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x4f81827e -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\json\cJSON.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x1e23b725 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x1e23b725 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x1e23b725 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x1e23b725 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\parse.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x5924f972 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x5924f972 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x5924f972 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x5924f972 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\peer.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x1e791bcc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x1e791bcc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x1e791bcc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x1e791bcc -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\response.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x30e526a0 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x30e526a0 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x30e526a0 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x30e526a0 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\router.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x49265365 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x49265365 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x49265365 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x49265365 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\sha1\sha1.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x2663b309 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x2663b309 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x2663b309 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x2663b309 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\socket_peer.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x048850b8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x048850b8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x048850b8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x048850b8 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\table.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0xcdb63172 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0xcdb63172 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0xcdb63172 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0xcdb63172 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\timer.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0xa5d65dd5 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0xa5d65dd5 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0xa5d65dd5 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0xa5d65dd5 -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\websocket.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0x0df1442c -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0x0df1442c -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0x0df1442c -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0x0df1442c -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="C:\Git\cjet\src\websocket_peer.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -frandom-seed=0xb5f8ed1f -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -frandom-seed=0xb5f8ed1f -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -frandom-seed=0xb5f8ed1f -std=c99 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -frandom-seed=0xb5f8ed1f -std=c99 %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="C:/Git/cjet/vstudio/ZERO_CHECK.vcxproj">
-      <Project>2E4E66E2-D902-3535-BCF9-DD49265DA894</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\src\windows\crypt\bin\crypt.dll">

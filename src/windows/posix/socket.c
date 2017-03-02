@@ -63,7 +63,7 @@ ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t 
 			buf[i].len = io_vec[i].iov_len;
 		}
 
-		if (WSASend(sock, buf, sizeof(buf) / sizeof(WSABUF), &send_len, 0, NULL, NULL) == SOCKET_ERROR)
+		if (WSASend(sock, buf, count, &send_len, 0, NULL, NULL) == SOCKET_ERROR)
 		{
 			if (WSAGetLastError() == WSAEWOULDBLOCK)
 			{
@@ -74,9 +74,7 @@ ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t 
 		}
 	}
 
-	printf("\n");
 	printf("%d", send_len);
-	printf("\n");
 	
 	return send_len;
 }
