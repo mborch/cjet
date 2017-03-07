@@ -25,9 +25,6 @@
     <Filter Include="Source Files\json">
       <UniqueIdentifier>{72c11c53-8957-4329-aa9c-82304478d78c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\windows\posix">
-      <UniqueIdentifier>{f527afe7-0311-448c-b7a3-29c71bd511da}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\alloc.c">
@@ -90,9 +87,6 @@
     <ClCompile Include="..\..\src\websocket_peer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\epoll.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\eventloop_epoll.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
@@ -117,9 +111,6 @@
     <ClCompile Include="..\..\src\windows\strcasestr.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\syslogc.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\timer_windows.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
@@ -135,14 +126,20 @@
     <ClCompile Include="..\..\src\http-parser\http_parser.c">
       <Filter>Source Files\http-parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\posix\auth_file.c">
-      <Filter>Source Files\windows\posix</Filter>
+    <ClCompile Include="..\..\src\windows\main.c">
+      <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\posix\main.c">
-      <Filter>Source Files\windows\posix</Filter>
+    <ClCompile Include="..\..\src\windows\socket.c">
+      <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\posix\socket.c">
-      <Filter>Source Files\windows\posix</Filter>
+    <ClCompile Include="..\..\src\windows\auth_file.c">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\syslogc.c">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\epoll.c">
+      <Filter>Source Files\windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

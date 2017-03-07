@@ -20,12 +20,6 @@ struct epoll_fd
 	CRITICAL_SECTION lock;
 };
 
-int epoll_startup()
-{
-	WSADATA wsadata;
-	return WSAStartup(MAKEWORD(2, 2), &wsadata);
-}
-
 /*
 http://linux.die.net/man/2/epoll_create
 */
@@ -118,10 +112,7 @@ int epoll_ctl(int epfd, int opcode, int fd, struct epoll_event* event)
 {
 	int error = ENOENT;
 	struct epoll_fd* epoll_fd = (struct epoll_fd*)epfd;
-	if (!TryEnterCriticalSection(&epoll_fd->lock))
-	{
-		return -1;
-	}
+	EnterCriticalSection(&epoll_fd->lock);
 	switch (opcode) {
 	case EPOLL_CTL_ADD:
 		error = epoll_ctl_add(epoll_fd, fd, event);
@@ -234,9 +225,4 @@ int epoll_close(int epfd)
 	free(epoll_fd->fds);
 	free(epoll_fd);
 	return 0;
-}
-
-void epoll_cleanup()
-{
-	WSACleanup();
 }

@@ -599,7 +599,7 @@ int websocket_send_pong_frame(const struct websocket *s, uint8_t *payload, size_
 int websocket_send_close_frame(const struct websocket *s, enum ws_status_code status_code, const char *payload, size_t length)
 {
 	uint16_t code = status_code;
-	uint8_t *buffer = alloca(length * sizeof(size_t) + sizeof(code));
+	uint8_t *buffer = alloca((length + sizeof(code)) * sizeof(uint8_t));
 	code = jet_htobe16(code);
 	memcpy(buffer, &code, sizeof(code));
 	if (length > 0) {

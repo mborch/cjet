@@ -28,17 +28,17 @@
 #include <errno.h>
 
 #include "windows/epoll.h"
+#include "windows/eventloop_epoll.h"
 #include "compiler.h"
 #include "eventloop.h"
 #include "generated/os_config.h"
-#include "windows/eventloop_epoll.h"
 #include "log.h"
-
 
 static enum eventloop_return handle_events(int num_events, struct epoll_event *events)
 {
 	if (unlikely(num_events == -1)) {
 		if (errno == WSAEINTR) {
+			printf("%d", errno);
 			return EL_CONTINUE_LOOP;
 		}
 		else {
@@ -81,24 +81,21 @@ static enum eventloop_return handle_events(int num_events, struct epoll_event *e
 	return EL_CONTINUE_LOOP;
 }
 
-
 int eventloop_epoll_init(void *this_ptr)
 {
 	struct eventloop_epoll *loop = this_ptr;
-	loop->epoll_fd = epoll_create(32);
+	loop->epoll_fd = epoll_create(5);
 	if (loop->epoll_fd < 0) {
 		return -1;
 	}
 	return 0;
 }
 
-
 void eventloop_epoll_destroy(const void *this_ptr)
 {
 	const struct eventloop_epoll *loop = this_ptr;
-	closesocket(loop->epoll_fd);
+	epoll_close(loop->epoll_fd);
 }
-
 
 int eventloop_epoll_run(const void *this_ptr, const int *go_ahead)
 {
@@ -115,7 +112,6 @@ int eventloop_epoll_run(const void *this_ptr, const int *go_ahead)
 	return 0;
 }
 
-
 enum eventloop_return eventloop_epoll_add(const void *this_ptr, const struct io_event *ev)
 {
 	const struct eventloop_epoll *loop = this_ptr;
@@ -131,10 +127,8 @@ enum eventloop_return eventloop_epoll_add(const void *this_ptr, const struct io_
 	return EL_CONTINUE_LOOP;
 }
 
-
 void eventloop_epoll_remove(const void *this_ptr, const struct io_event *ev)
 {
 	const struct eventloop_epoll *loop = this_ptr;
 	epoll_ctl(loop->epoll_fd, EPOLL_CTL_DEL, ev->sock, NULL);
 }
-

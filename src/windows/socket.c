@@ -52,7 +52,7 @@ ssize_t socket_read(socket_type sock, void *buf, size_t count)
 
 ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t count)
 {
-	DWORD send_len = -1;
+	DWORD send_len = SOCKET_ERROR;
 
 	if (likely(count > 0))
 	{
@@ -73,8 +73,6 @@ ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t 
 			send_len = -1;
 		}
 	}
-
-	printf("%d", send_len);
 	
 	return send_len;
 }

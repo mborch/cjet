@@ -26,15 +26,9 @@
 
 #include <WS2tcpip.h>
 #include <io.h>
-#include <errno.h>
-#include <fcntl.h>
 #include <signal.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
+
+#include "windows/windows_io.h"
 
 #include "alloc.h"
 #include "buffered_reader.h"
@@ -42,7 +36,6 @@
 #include "http_connection.h"
 #include "http_server.h"
 #include "jet_server.h"
-#include "windows/windows_io.h"
 #include "log.h"
 #include "socket_peer.h"
 #include "util.h"
@@ -96,6 +89,7 @@ static int prepare_peer_socket(SOCKET fd)
 		closesocket(fd);
 		return -1;
 	}
+
 	return 0;
 }
 
@@ -215,7 +209,7 @@ static enum eventloop_return accept_common(struct io_event *ev, void(*peer_funct
 		struct sockaddr_storage addr;
 		memset(&addr, 0, sizeof(addr));
 		socklen_t addrlen = sizeof(addr);
-		SOCKET peer_fd = accept(ev->sock, (struct sockaddr *)&addr, &addrlen);
+		SOCKET peer_fd = accept(ev->sock, (SOCKADDR *)&addr, &addrlen);
 		if (peer_fd == INVALID_SOCKET) {
 			int last_error = WSAGetLastError();
 			if (last_error == WSAEWOULDBLOCK) {
@@ -275,11 +269,6 @@ static int start_server(struct io_event *ev)
 	}
 }
 
-static int server_startup()
-{
-	WSADATA wsaData = { 0 };
-	return WSAStartup(MAKEWORD(2, 2), &wsaData);
-}
 
 static SOCKET create_server_socket_all_interfaces(int port)
 {
@@ -445,20 +434,6 @@ static int drop_privileges()
 
 static int run_jet(const struct eventloop *loop, const struct cmdline_config *config)
 {
-	if ((config->user_name != NULL) && drop_privileges(config->user_name) < 0) {
-		log_err("Can't drop privileges of cjet!\n");
-		return -1;
-	}
-
-	if (!config->run_foreground) {
-		/*
-		if (daemon(0, 0) != 0) {
-			log_err("Can't daemonize cjet!\n");
-			return -1;
-		}
-		*/
-	}
-
 	int ret = loop->run(loop->this_ptr, &go_ahead);
 	destroy_all_peers();
 	return ret;
@@ -488,8 +463,8 @@ static int run_io_only_local(struct eventloop *loop, const struct cmdline_config
 		closesocket(ipv6_jet_fd);
 		return -1;
 	}
-	// start jet server on ipv4 loopback
-	SOCKET ipv4_jet_fd = create_server_socket_bound("127.0.0.1", CONFIG_JET_PORT);
+	// start jet server on ipv4 loopback 
+	SOCKET ipv4_jet_fd = create_server_socket_bound("172.19.204.229", CONFIG_JET_PORT); //172.19.204.229
 	if (ipv4_jet_fd == INVALID_SOCKET) {
 		ret = -1;
 		goto create_ipv4_jet_socket_failed;
@@ -535,7 +510,7 @@ static int run_io_only_local(struct eventloop *loop, const struct cmdline_config
 	}
 
 	// start websocket jet server on ipv4 loopback
-	SOCKET ipv4_http_fd = create_server_socket_bound("127.0.0.1", CONFIG_JETWS_PORT);
+	SOCKET ipv4_http_fd = create_server_socket_bound("172.19.204.229", CONFIG_JETWS_PORT); //172.19.204.229
 	if (ipv4_http_fd == INVALID_SOCKET) {
 		ret = -1;
 		goto create_ipv4_jetws_socket_failed;
@@ -656,12 +631,6 @@ int run_io(struct eventloop *loop, const struct cmdline_config *config)
 		},
 	};
 
-	int startup = server_startup();
-	if (startup != 0) {
-		log_err(L"WSAStartup failed: %d\n", startup);
-		return -1;
-	}
-
 	if (config->bind_local_only) {
 		ret = run_io_only_local(loop, config, handler, ARRAY_SIZE(handler));
 	}
@@ -670,7 +639,6 @@ int run_io(struct eventloop *loop, const struct cmdline_config *config)
 	}
 
 	loop->destroy(loop->this_ptr);
-	WSACleanup();
 eventloop_init_failed:
 	unregister_signal_handler();
 	return ret;

@@ -340,8 +340,7 @@ int buffered_socket_close(void *context)
 int buffered_socket_writev(void *this_ptr, struct socket_io_vector *io_vec, unsigned int count)
 {
 	struct buffered_socket *bs = (struct buffered_socket *)this_ptr;
-	unsigned int sizeof_iovector = sizeof(struct socket_io_vector);
-	struct socket_io_vector *iov = alloca(count * sizeof_iovector + sizeof_iovector);
+	struct socket_io_vector *iov = alloca((count + 1) * sizeof(struct socket_io_vector));
 	size_t to_write = bs->to_write;
 	iov[0].iov_base = bs->write_buffer;
 	iov[0].iov_len = bs->to_write;

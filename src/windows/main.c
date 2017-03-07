@@ -45,9 +45,15 @@
 
 int main(int argc, char **argv)
 {
+	WSADATA wsaData = { 0 };
+	if (WSAStartup(MAKEWORD(2, 2), &wsaData)) {
+		log_err(stderr, "Can't initialize WinSock\n");
+		return EXIT_FAILURE;
+	}
+
 	struct cmdline_config config = {
 		.run_foreground = false,
-		.bind_local_only = false,
+		.bind_local_only = true,
 		.user_name = NULL,
 		.passwd_file = NULL,
 		.request_target = "/api/jet/",
@@ -63,25 +69,16 @@ int main(int argc, char **argv)
 	int ret = EXIT_SUCCESS;
 
 	int c;
-	while ((c = getopt(argc, argv, "flp:r:u:")) != -1) {
+	while ((c = getopt(argc, argv, "l:r")) != -1) {
 		switch (c) {
-		case 'f':
-			config.run_foreground = true;
-			break;
 		case 'l':
 			config.bind_local_only = true;
-			break;
-		case 'p':
-			config.passwd_file = optarg;
 			break;
 		case 'r':
 			config.request_target = optarg;
 			break;
-		case 'u':
-			config.user_name = optarg;
-			break;
 		case '?':
-			fprintf(stderr, "Usage: %s [-l] [-f] [-r <request target>] [-u <username>] [-p <password file>]\n", argv[0]);
+			fprintf(stderr, "Usage: %s [-l] [-r <request target>]\n", argv[0]);
 			ret = EXIT_FAILURE;
 			goto getopt_failed;
 			break;
@@ -101,7 +98,7 @@ int main(int argc, char **argv)
 	}
 
 	struct eventloop_epoll eloop = {
-		.epoll_fd = 0,
+		.epoll_fd = NULL,
 		.loop = {
 		.this_ptr = &eloop,
 		.init = eventloop_epoll_init,
@@ -121,6 +118,8 @@ int main(int argc, char **argv)
 
 	log_info("%s stopped", CJET_NAME);
 
+
+
 run_io_failed:
 	element_hashtable_delete();
 element_hashtable_create_failed:
@@ -128,5 +127,6 @@ element_hashtable_create_failed:
 load_passwd_data_failed:
 getopt_failed:
 	close_random();
+	WSACleanup();
 	return ret;
 }

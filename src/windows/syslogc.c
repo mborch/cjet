@@ -60,19 +60,11 @@ CRITICAL_SECTION cs_syslog;
 
 void init_syslog(const char * hostname)
 {
-    WSADATA wsd;
     char * service;
 
     if ( initialized )
         return;
-
-    if( WSAStartup( MAKEWORD( 2, 2 ), &wsd ) ) {
-        fprintf(stderr, "Can't initialize WinSock\n");
-        /* we let the rest of the initialization code go through,
-           although none of the syslog calls would succeed. */
-    } else {
-        wsa_initialized = TRUE;
-    }
+	   
 
     if (hostname)
         strcpy_s(syslog_hostname, sizeof(syslog_hostname), hostname);
@@ -111,10 +103,7 @@ void exit_syslog(void)
         return;
 
     closelog();
-
-    if ( wsa_initialized )
-        WSACleanup();
-
+	
     DeleteCriticalSection(&cs_syslog);
     initialized = FALSE;
 }
@@ -273,11 +262,13 @@ int setlogmask( int mask )
  */
 void syslog( int pri, char* fmt, ... )
 {
+	/*
     va_list ap;
 
     va_start( ap, fmt );
     vsyslog( pri, fmt, ap );
     va_end( ap );
+	*/
 }
 
 /******************************************************************************
