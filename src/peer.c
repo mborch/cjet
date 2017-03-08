@@ -27,9 +27,13 @@
 #if defined(_MSC_VER)
 #include <WinSock2.h>
 #include <io.h>
+
+#include "windows/windows_router.h"
 #else
 #include <arpa/inet.h>
 #include <unistd.h>
+
+#include "router.h"
 #endif
 
 #include <stdarg.h>
@@ -44,7 +48,6 @@
 #include "list.h"
 #include "log.h"
 #include "peer.h"
-#include "router.h"
 #include "element.h"
 #include "util.h"
 

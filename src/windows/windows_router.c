@@ -1,42 +1,41 @@
 /*
-*The MIT License (MIT)
-*
-* Copyright (c) <2014> <Stephan Gatzka>
-*
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to
-* the following conditions:
-*
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-* BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-* ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+ *The MIT License (MIT)
+ *
+ * Copyright (c) <2014> <Stephan Gatzka>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <stddef.h>
 #include <stdio.h>
 
 #include "alloc.h"
 #include "compiler.h"
-#include "generated/cjet_config.h"
 #include "hashtable.h"
-#include "linux/linux_io.h"
+#include "generated/cjet_config.h"
+#include "json/cJSON.h"
 #include "peer.h"
 #include "response.h"
-#include "router.h"
+#include "windows_router.h"
 #include "timer.h"
-#include "json/cJSON.h"
 
 static unsigned int uuid = 0;
 
@@ -154,6 +153,9 @@ struct routing_request *alloc_routing_request(const struct peer *requesting_peer
 		fill_routed_request_id(request->id, size_for_id, requesting_peer, origin_request_id);
 	}
 
+	request->timerItself = NULL;
+	request->timerWorks = 0;
+	InitializeCriticalSection(&request->cs);
 	return request;
 
 duplicate_id_failed:
@@ -175,9 +177,11 @@ static int format_and_send_response(const struct peer *p, const cJSON *response)
 	}
 }
 
+
 static void request_timeout_handler(void *context, bool cancelled)
 {
 	struct routing_request *request = (struct routing_request *)context;
+
 	if (unlikely(!cancelled)) {
 		struct value_route_table val;
 		int ret = HASHTABLE_REMOVE(route_table, request->owner_peer->routing_table, request->id, &val);
@@ -192,7 +196,10 @@ static void request_timeout_handler(void *context, bool cancelled)
 					log_peer_err(request->requesting_peer, "Could not create %s response!\n", "error");
 				}
 
-				cjet_timer_destroy(&request->timer);
+				request->timer_ev.loop->remove(request->timer_ev.loop->this_ptr, &(request->timer_ev));
+				CloseHandle(request->timerItself);
+				request->timerItself = INVALID_HANDLE_VALUE;
+
 				cJSON_Delete(request->origin_request_id);
 			}
 
@@ -204,6 +211,19 @@ static void request_timeout_handler(void *context, bool cancelled)
 	}
 }
 
+void CALLBACK TimerAPCProc(LPVOID lpArgToCompletionRoutine, DWORD  dwTimerLowValue, DWORD  dwTimerHighValue)
+{
+	request_timeout_handler(lpArgToCompletionRoutine, false);
+}
+
+static enum eventloop_return timer_read(struct io_event *ev)
+{
+	struct routing_request * request = (struct routing_request *)container_of(ev, struct routing_request, timer_ev);
+
+	TimerAPCProc(request, 0, 0);
+	return EL_CONTINUE_LOOP;
+}
+
 int setup_routing_information(struct element *e, const cJSON *request, const cJSON *timeout, struct routing_request *routing_request, cJSON **response)
 {
 	uint64_t timeout_ns = get_timeout_in_nsec(routing_request->requesting_peer, request, timeout, response, e->timeout_nsec);
@@ -211,13 +231,27 @@ int setup_routing_information(struct element *e, const cJSON *request, const cJS
 		return -1;
 	}
 
-	if (unlikely(cjet_timer_init(&routing_request->timer, e->peer->loop) < 0)) {
+	routing_request->timerItself = CreateWaitableTimer(NULL, FALSE, NULL);
+	if (routing_request->timerItself == INVALID_HANDLE_VALUE || routing_request->timerItself == NULL) {
 		*response = create_error_response_from_request(routing_request->requesting_peer, request, INTERNAL_ERROR, "reason", "could not init timer for routing request");
 		return -1;
 	}
 
-	int ret = routing_request->timer.start(&routing_request->timer, timeout_ns, request_timeout_handler, routing_request);
-	if (unlikely(ret < 0)) {
+	routing_request->timer_ev.sock = (socket_type)routing_request->timerItself;
+	routing_request->timer_ev.loop = e->peer->loop;
+	routing_request->timer_ev.error_function = NULL;
+	routing_request->timer_ev.read_function = timer_read;
+	routing_request->timer_ev.write_function = NULL;
+	e->peer->loop->add(e->peer->loop->this_ptr, &(routing_request->timer_ev));
+
+	LARGE_INTEGER due_time;
+	int64_t timeout_100ns = timeout_ns * 100;
+	timeout_100ns = -timeout_100ns;
+
+	memcpy(&due_time, &timeout_100ns, sizeof(LARGE_INTEGER));
+
+	if (!SetWaitableTimer(routing_request->timerItself, &due_time, 0, TimerAPCProc, routing_request, FALSE))
+	{
 		*response = create_error_response_from_request(routing_request->requesting_peer, request, INTERNAL_ERROR, "reason", "could not start timer for routing request");
 		return -1;
 	}
@@ -251,11 +285,15 @@ int handle_routing_response(const cJSON *json_rpc, const cJSON *response, const 
 	int ret = HASHTABLE_REMOVE(route_table, p->routing_table, id->valuestring, &val);
 	if (likely(ret == HASHTABLE_SUCCESS)) {
 		struct routing_request *request = val.vals[0];
-		if (unlikely(request->timer.cancel(&request->timer) < 0)) {
+
+		if (!CancelWaitableTimer(request->timerItself)) {
 			log_peer_err(p, "Could not cancel request timer!\n");
 		}
 
-		cjet_timer_destroy(&request->timer);
+		request->timer_ev.loop->remove(request->timer_ev.loop->this_ptr, &(request->timer_ev));
+		CloseHandle(request->timerItself);
+		request->timerItself = INVALID_HANDLE_VALUE;
+
 		if (likely(request->origin_request_id != NULL)) {
 			cJSON *response_copy = cJSON_Duplicate(response, 1);
 			if (likely(response_copy != NULL)) {
@@ -275,6 +313,8 @@ int handle_routing_response(const cJSON *json_rpc, const cJSON *response, const 
 			}
 			cJSON_Delete(request->origin_request_id);
 		}
+
+		DeleteCriticalSection(&request->cs);
 
 		cjet_free(request);
 		return ret;
@@ -305,7 +345,7 @@ static void clear_routing_entry(struct value_route_table *val)
 {
 	struct routing_request *request = val->vals[0];
 
-	if (unlikely(request->timer.cancel(&request->timer) < 0)) {
+	if (!CancelWaitableTimer(request->timerItself)) {
 		log_peer_err(request->requesting_peer, "Could not cancel request timer when clearing routing entry!\n");
 	}
 
@@ -348,3 +388,4 @@ void remove_routing_info_from_peer(const struct peer *p)
 		}
 	}
 }
+

@@ -24,33 +24,32 @@
 * SOFTWARE.
 */
 
-#include <intrin.h>
+#include <WinSock2.h>
 #include <stdint.h>
 
-#include "windows/endian.h"
 #include "jet_endian.h"
 
 uint16_t jet_be16toh(uint16_t big_endian_16bits)
 {
-	return be16toh(big_endian_16bits);
+	return ntohs(big_endian_16bits);
 }
 
 uint32_t jet_be32toh(uint32_t big_endian_32bits)
 {
-	return be32toh(big_endian_32bits);
+	return ntohl(big_endian_32bits);
 }
 
 uint64_t jet_be64toh(uint64_t big_endian_64bits)
 {
-	return be64toh(big_endian_64bits);
+	return ntohll(big_endian_64bits);
 }
 
 uint16_t jet_htobe16(uint16_t host_endian_16bits)
 {
-	return htobe16(host_endian_16bits);
+	return htons(host_endian_16bits);
 }
 
 uint64_t jet_htobe64(uint64_t host_endian_64bits)
 {
-	return htobe64(host_endian_64bits);
+	return htonll(host_endian_64bits);
 }

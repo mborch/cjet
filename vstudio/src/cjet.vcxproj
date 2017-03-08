@@ -115,7 +115,6 @@
     <ClCompile Include="..\..\src\parse.c" />
     <ClCompile Include="..\..\src\peer.c" />
     <ClCompile Include="..\..\src\response.c" />
-    <ClCompile Include="..\..\src\router.c" />
     <ClCompile Include="..\..\src\sha1\sha1.c" />
     <ClCompile Include="..\..\src\socket_peer.c" />
     <ClCompile Include="..\..\src\table.c" />
@@ -123,7 +122,7 @@
     <ClCompile Include="..\..\src\websocket.c" />
     <ClCompile Include="..\..\src\websocket_peer.c" />
     <ClCompile Include="..\..\src\windows\auth_file.c" />
-    <ClCompile Include="..\..\src\windows\epoll.c" />
+    <ClCompile Include="..\..\src\windows\epoll\epoll.c" />
     <ClCompile Include="..\..\src\windows\eventloop_epoll.c" />
     <ClCompile Include="..\..\src\windows\getopt.c" />
     <ClCompile Include="..\..\src\windows\jet_endian.c" />
@@ -135,8 +134,8 @@
     <ClCompile Include="..\..\src\windows\socket.c" />
     <ClCompile Include="..\..\src\windows\strcasestr.c" />
     <ClCompile Include="..\..\src\windows\syslogc.c" />
-    <ClCompile Include="..\..\src\windows\timer_windows.c" />
     <ClCompile Include="..\..\src\windows\windows_io.c" />
+    <ClCompile Include="..\..\src\windows\windows_router.c" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\src\windows\crypt\bin\crypt.dll">

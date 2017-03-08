@@ -1,32 +1,28 @@
 /*
- *The MIT License (MIT)
- *
- * Copyright (c) <2014> <Stephan Gatzka>
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
-
-#include <stddef.h>
-#include <string.h>
+*The MIT License (MIT)
+*
+* Copyright (c) <2014> <Stephan Gatzka>
+*
+* Permission is hereby granted, free of charge, to any person obtaining
+* a copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+* BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+* ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 #if defined(_MSC_VER)
 #include "windows/windows_io.h"
@@ -34,23 +30,26 @@
 #include "linux/linux_io.h"
 #endif
 
+#include <stddef.h>
+#include <string.h>
+
 #include "alloc.h"
 #include "compiler.h"
 #include "fetch.h"
 #include "generated/cjet_config.h"
 #include "groups.h"
 #include "jet_string.h"
-#include "json/cJSON.h"
 #include "list.h"
 #include "log.h"
 #include "peer.h"
 #include "request.h"
 #include "response.h"
+#include "json/cJSON.h"
 
-#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 #ifndef ARRAY_SIZE
-# define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 #endif
 
 static const char case_insensitive[] = "caseInsensitive";
@@ -167,20 +166,20 @@ static int containsallof_match_ignore_case(const struct path_matcher *pm, const 
 }
 
 static const struct supported_matcher matchers[] = {
-	{.matcher_name = "equals", .case_sensitive = equals_match, .case_insensitive = equals_match_ignore_case, .has_multiple_path_elements = false},
-	{.matcher_name = "contains", .case_sensitive = contains_match, .case_insensitive = contains_match_ignore_case, .has_multiple_path_elements = false},
-	{.matcher_name = "startsWith", .case_sensitive = startswith_match, .case_insensitive = startswith_match_ignore_case, .has_multiple_path_elements = false},
-	{.matcher_name = "endsWith", .case_sensitive = endswith_match, .case_insensitive = endswith_match_ignore_case,.has_multiple_path_elements = false},
-	{.matcher_name = "equalsNot", .case_sensitive = equalsnot_match, .case_insensitive = equalsnot_match_ignore_case,.has_multiple_path_elements = false},
-	{.matcher_name = "containsAllOf", .case_sensitive = containsallof_match, .case_insensitive = containsallof_match_ignore_case, .has_multiple_path_elements = true}
-};
+	{ .matcher_name = "equals",.case_sensitive = equals_match,.case_insensitive = equals_match_ignore_case,.has_multiple_path_elements = false },
+	{ .matcher_name = "contains",.case_sensitive = contains_match,.case_insensitive = contains_match_ignore_case,.has_multiple_path_elements = false },
+	{ .matcher_name = "startsWith",.case_sensitive = startswith_match,.case_insensitive = startswith_match_ignore_case,.has_multiple_path_elements = false },
+	{ .matcher_name = "endsWith",.case_sensitive = endswith_match,.case_insensitive = endswith_match_ignore_case,.has_multiple_path_elements = false },
+	{ .matcher_name = "equalsNot",.case_sensitive = equalsnot_match,.case_insensitive = equalsnot_match_ignore_case,.has_multiple_path_elements = false },
+	{ .matcher_name = "containsAllOf",.case_sensitive = containsallof_match,.case_insensitive = containsallof_match_ignore_case,.has_multiple_path_elements = true } };
 
 static struct path_matcher *create_path_matcher(unsigned int number_of_path_elements)
 {
 	struct path_matcher *pm = cjet_calloc(1, sizeof(*pm) + (sizeof(pm->path_elements) * (number_of_path_elements - 1)));
 	if (unlikely(pm == NULL)) {
 		log_err("Could not create path matcher!\n");
-	} else {
+	}
+	else {
 		pm->number_of_path_elements = number_of_path_elements;
 	}
 	return pm;
@@ -201,9 +200,9 @@ static int fill_path_elements(struct path_matcher *pm, const cJSON *matcher, boo
 		pm->path_elements[0] = duplicate_string(matcher->valuestring);
 		if (unlikely(pm->path_elements[0] == NULL)) {
 			return -1;
-		}  
+		}
 		return 0;
-	} 
+	}
 
 	const cJSON *element = matcher->child;
 	for (unsigned i = 0; i < number_of_path_elements; i++) {
@@ -231,7 +230,8 @@ static int create_matcher(struct fetch *f, const cJSON *matcher, unsigned int ma
 			match_func match_function;
 			if (ignore_case) {
 				match_function = matchers[i].case_insensitive;
-			} else {
+			}
+			else {
 				match_function = matchers[i].case_sensitive;
 			}
 			bool has_multiple_path_elements = matchers[i].has_multiple_path_elements;
@@ -243,7 +243,8 @@ static int create_matcher(struct fetch *f, const cJSON *matcher, unsigned int ma
 					return -1;
 				}
 				number_of_path_elements = cJSON_GetArraySize(matcher);
-			} else {
+			}
+			else {
 				if (matcher->type != cJSON_String) {
 					log_err("Single path element is not a string!\n");
 					return -1;
@@ -346,10 +347,12 @@ static struct fetch *create_fetch(const struct peer *p, const cJSON *request, co
 		number_of_matchers--;
 		if (match_ignore_case->type == cJSON_True) {
 			ignore_case = 1;
-		} else {
+		}
+		else {
 			ignore_case = 0;
 		}
-	} else {
+	}
+	else {
 		ignore_case = 0;
 	}
 
@@ -416,10 +419,10 @@ static int state_matches(const struct element *e, const struct fetch *f)
 {
 	if (f->matcher[0] == NULL) {
 		/*
-		 * no match function given, so it was a fetch all
-		 * command
-		 */
-		 return 1;
+		* no match function given, so it was a fetch all
+		* command
+		*/
+		return 1;
 	}
 
 	unsigned int match_array_size = f->number_of_matchers;
@@ -441,12 +444,14 @@ static int add_fetch_to_state(struct element *e, const struct fetch *f)
 			return 0;
 		}
 	}
+
 	unsigned int new_size = MAX(CONFIG_INITIAL_FETCH_TABLE_SIZE, e->fetch_table_size * 2);
-	void *new_fetch_table = cjet_calloc(new_size, sizeof(struct fetch*));
+	void *new_fetch_table = cjet_calloc(new_size, sizeof(struct fetch *));
 	if (new_fetch_table == NULL) {
 		return -1;
 	}
-	memcpy(new_fetch_table, e->fetcher_table, e->fetch_table_size * sizeof(struct fetch*));
+
+	memcpy(new_fetch_table, e->fetcher_table, e->fetch_table_size * sizeof(struct fetch *));
 	e->fetch_table_size = new_size;
 	cjet_free(e->fetcher_table);
 	e->fetcher_table = new_fetch_table;
@@ -503,7 +508,7 @@ static int notify_fetching_peer(const struct element *e, const struct fetch *f,
 
 	const struct peer *p = f->peer;
 	if (unlikely(p->send_message(p, rendered_message,
-			strlen(rendered_message)) != 0)) {
+		strlen(rendered_message)) != 0)) {
 		cjet_free(rendered_message);
 		goto error;
 	}
@@ -607,7 +612,7 @@ int notify_fetchers(const struct element *e, const char *event_name)
 	for (unsigned int i = 0; i < e->fetch_table_size; i++) {
 		const struct fetch *f = e->fetcher_table[i];
 		if ((f != NULL) &&
-				(unlikely(notify_fetching_peer(e, f, event_name) != 0))) {
+			(unlikely(notify_fetching_peer(e, f, event_name) != 0))) {
 			return -1;
 		}
 	}
@@ -661,7 +666,8 @@ static void remove_fetch_from_states(const struct fetch *f)
 }
 
 static int find_fetchers_for_element_in_peer(const struct peer *p,
-	struct element *e) {
+	struct element *e)
+{
 
 	struct list_head *item;
 	struct list_head *tmp;

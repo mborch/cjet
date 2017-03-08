@@ -27,7 +27,7 @@
 #include <WinSock2.h>
 #include <errno.h>
 
-#include "windows/epoll.h"
+#include "windows/epoll/epoll.h"
 #include "windows/eventloop_epoll.h"
 #include "compiler.h"
 #include "eventloop.h"
@@ -84,7 +84,7 @@ static enum eventloop_return handle_events(int num_events, struct epoll_event *e
 int eventloop_epoll_init(void *this_ptr)
 {
 	struct eventloop_epoll *loop = this_ptr;
-	loop->epoll_fd = epoll_create(5);
+	loop->epoll_fd = epoll_create();
 	if (loop->epoll_fd < 0) {
 		return -1;
 	}
@@ -119,7 +119,7 @@ enum eventloop_return eventloop_epoll_add(const void *this_ptr, const struct io_
 
 	memset(&epoll_ev, 0, sizeof(epoll_ev));
 	epoll_ev.data.ptr = (void *)ev;
-	epoll_ev.events = EPOLLIN | EPOLLOUT | EPOLLET;
+	epoll_ev.events = EPOLLIN | EPOLLOUT;// | EPOLLET;
 	if (unlikely(epoll_ctl(loop->epoll_fd, EPOLL_CTL_ADD, ev->sock, &epoll_ev) < 0)) {
 		log_err("epoll_ctl failed!\n");
 		return EL_ABORT_LOOP;

@@ -25,6 +25,9 @@
     <Filter Include="Source Files\json">
       <UniqueIdentifier>{72c11c53-8957-4329-aa9c-82304478d78c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\windows\epoll">
+      <UniqueIdentifier>{12aaea0b-d1f6-418c-85a8-fc6881a1a6c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\alloc.c">
@@ -69,9 +72,6 @@
     <ClCompile Include="..\..\src\response.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\router.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\socket_peer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,9 +111,6 @@
     <ClCompile Include="..\..\src\windows\strcasestr.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\timer_windows.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\windows_io.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
@@ -132,13 +129,16 @@
     <ClCompile Include="..\..\src\windows\socket.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\auth_file.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\syslogc.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\epoll.c">
+    <ClCompile Include="..\..\src\windows\epoll\epoll.c">
+      <Filter>Source Files\windows\epoll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\windows_router.c">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\auth_file.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
   </ItemGroup>

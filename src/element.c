@@ -29,8 +29,10 @@
 
 #if defined(_MSC_VER)
 #include "windows/windows_io.h"
+#include "windows/windows_router.h"
 #else
 #include "linux/linux_io.h"
+#include "router.h"
 #endif
 
 #include "alloc.h"
@@ -45,7 +47,6 @@
 #include "peer.h"
 #include "request.h"
 #include "response.h"
-#include "router.h"
 #include "table.h"
 
 static bool is_state(const struct element *e)

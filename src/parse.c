@@ -30,8 +30,10 @@
 
 #if defined(_MSC_VER)
 #include "windows/windows_io.h"
+#include "windows/windows_router.h"
 #else
 #include "linux/linux_io.h"
+#include "router.h"
 #endif
 
 #include "alloc.h"
@@ -45,7 +47,6 @@
 #include "parse.h"
 #include "peer.h"
 #include "response.h"
-#include "router.h"
 #include "element.h"
 
 static int send_response(cJSON *response, const struct peer *p)
