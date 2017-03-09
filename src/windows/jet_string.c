@@ -29,17 +29,80 @@
 
 #include "compiler.h"
 #include "jet_string.h"
-#include "windows/memmem.h"
-#include "windows/strcasestr.h"
 
 const char *jet_strcasestr(const char *haystack, const char *needle)
 {
-	return strcasestr(haystack, needle);
+	char* p1 = (char*)haystack;
+	const char* p2 = needle;
+	char* r = *p2 == 0 ? (char*)haystack : 0;
+
+	while (*p1 != 0 && *p2 != 0)
+	{
+		if (tolower(*p1) == tolower(*p2))
+		{
+			if (r == 0)
+			{
+				r = p1;
+			}
+
+			p2++;
+		}
+		else
+		{
+			p2 = needle;
+			if (tolower(*p1) == tolower(*p2))
+			{
+				r = p1;
+				p2++;
+			}
+			else
+			{
+				r = 0;
+			}
+		}
+
+		p1++;
+	}
+
+	return *p2 == 0 ? r : 0;
 }
 
 void *jet_memmem(const void *haystack, size_t haystacklen, const void *needle, size_t needlelen)
 {
-	return memmem(haystack, haystacklen, needle, needlelen);
+	// Sanity check
+	if (needlelen > haystacklen) return NULL;
+
+	// Void is useless -- we must treat our data as bytes (== unsigned chars)
+	typedef const unsigned char* p;
+
+	// We'll stop searching at the last possible position for a match, 
+	// which is haystack[ haystacklen - needlelen + 1 ]
+	haystacklen -= needlelen - 1;
+
+	while (haystacklen)
+	{
+		// Find the first byte in a potential match
+		p z = memchr((p)haystack, *(p)needle, haystacklen);
+		if (!z) return NULL;
+
+		// Is there enough space for there to actually be a match?
+		ptrdiff_t delta = z - (p)haystack;
+		ptrdiff_t remaining = (ptrdiff_t)haystacklen - delta;
+		if (remaining < 1) return NULL;
+
+		// Advance our pointer and update the amount of haystack remaining
+		haystacklen -= delta;
+		haystack = z;
+
+		// Did we find a match?
+		if (!memcmp(haystack, needle, needlelen))
+			return (void*)haystack;
+
+		// Ready for next loop
+		haystack = (p)haystack + 1;
+		haystacklen -= 1;
+	}
+	return NULL;
 }
 
 int jet_strcasecmp(const char *s1, const char *s2)

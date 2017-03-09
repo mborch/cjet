@@ -90,25 +90,13 @@
     <ClCompile Include="..\..\src\windows\eventloop_epoll.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\getopt.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\jet_endian.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\windows\jet_string.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\memmem.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\windows\mman.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\random.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\windows\strcasestr.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\windows\windows_io.c">
@@ -136,6 +124,9 @@
       <Filter>Source Files\windows\epoll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\windows\windows_router.c">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\mman.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\windows\auth_file.c">

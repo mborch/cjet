@@ -57,6 +57,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <CompileAs>CompileAsC</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)\..\src\windows\crypt\lib</AdditionalLibraryDirectories>
@@ -84,6 +85,7 @@
       <DebugInformationFormat />
       <ExceptionHandling>false</ExceptionHandling>
       <CompileAs>CompileAsC</CompileAs>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>
@@ -124,15 +126,12 @@
     <ClCompile Include="..\..\src\windows\auth_file.c" />
     <ClCompile Include="..\..\src\windows\epoll\epoll.c" />
     <ClCompile Include="..\..\src\windows\eventloop_epoll.c" />
-    <ClCompile Include="..\..\src\windows\getopt.c" />
     <ClCompile Include="..\..\src\windows\jet_endian.c" />
     <ClCompile Include="..\..\src\windows\jet_string.c" />
     <ClCompile Include="..\..\src\windows\main.c" />
-    <ClCompile Include="..\..\src\windows\memmem.c" />
     <ClCompile Include="..\..\src\windows\mman.c" />
     <ClCompile Include="..\..\src\windows\random.c" />
     <ClCompile Include="..\..\src\windows\socket.c" />
-    <ClCompile Include="..\..\src\windows\strcasestr.c" />
     <ClCompile Include="..\..\src\windows\syslogc.c" />
     <ClCompile Include="..\..\src\windows\windows_io.c" />
     <ClCompile Include="..\..\src\windows\windows_router.c" />

@@ -31,7 +31,6 @@
 #include <stdlib.h>
 #include <Winsock2.h>
 
-#include "windows/getopt.h"
 #include "windows/eventloop_epoll.h"
 #include "windows/windows_io.h"
 #include "alloc.h"
@@ -45,6 +44,8 @@
 
 int main(int argc, char **argv)
 {
+	init_syslog("127.0.0.1:80");
+
 	WSADATA wsaData = { 0 };
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData)) {
 		log_err(stderr, "Can't initialize WinSock\n");
@@ -68,20 +69,26 @@ int main(int argc, char **argv)
 	
 	int ret = EXIT_SUCCESS;
 
-	int c;
-	while ((c = getopt(argc, argv, "l:r")) != -1) {
-		switch (c) {
-		case 'l':
-			config.bind_local_only = true;
-			break;
-		case 'r':
-			config.request_target = optarg;
-			break;
-		case '?':
-			fprintf(stderr, "Usage: %s [-l] [-r <request target>]\n", argv[0]);
+	for (int i = 1; i < argc; i++) {
+		if (i == 1 && strcmp(argv[i], "-?") == 0) {
+			fprintf(stderr, "Usage: %s [-l] [-f] [-r <request target>] [-u <username>] [-p <password file>]\n", argv[0]);
 			ret = EXIT_FAILURE;
 			goto getopt_failed;
-			break;
+		}
+		if (strcmp(argv[i], "-f") == 0) {
+			config.run_foreground = true;
+		}
+		else if (strcmp(argv[i], "-l") == 0) {
+			config.bind_local_only = true;
+		}
+		else if (strcmp(argv[i], "-p") == 0) {
+			config.passwd_file = argv[++i];
+		}
+		else if (strcmp(argv[i], "-r") == 0) {
+			config.request_target = argv[++i];
+		}
+		else if (strcmp(argv[i], "-u") == 0) {
+			config.user_name = argv[++i];
 		}
 	}
 
@@ -128,5 +135,6 @@ load_passwd_data_failed:
 getopt_failed:
 	close_random();
 	WSACleanup();
+	exit_syslog();
 	return ret;
 }
