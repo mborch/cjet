@@ -24,8 +24,8 @@
  * SOFTWARE.
  */
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <string.h>
 
 #if defined(_MSC_VER)
@@ -40,14 +40,15 @@
 #include "authenticate.h"
 #include "compiler.h"
 #include "config.h"
+#include "element.h"
 #include "fetch.h"
 #include "generated/cjet_config.h"
 #include "info.h"
-#include "json/cJSON.h"
 #include "parse.h"
 #include "peer.h"
 #include "response.h"
-#include "element.h"
+#include "router.h"
+#include "json/cJSON.h"
 
 static int send_response(cJSON *response, const struct peer *p)
 {
@@ -83,7 +84,7 @@ static cJSON *process_fetch(const cJSON *json_rpc, struct peer *p)
 }
 
 static cJSON *handle_method(const cJSON *request, const char *method_name,
-	struct peer *p)
+                            struct peer *p)
 {
 	if (strcmp(method_name, "change") == 0) {
 		return change_state(p, request);
@@ -180,8 +181,8 @@ int parse_message(const char *msg, uint32_t length, struct peer *p)
 		ptrdiff_t parsed_length = end_parse - msg;
 		if (unlikely(parsed_length != (ptrdiff_t)length)) {
 			log_peer_err(p, "length of parsed JSON (%td) does not "
-				"match message length (%u)!\n",
-				parsed_length, length);
+			                "match message length (%u)!\n",
+			             parsed_length, length);
 			ret = -1;
 			goto out;
 		}
@@ -210,8 +211,7 @@ out:
 void init_parser(void)
 {
 	cJSON_Hooks hooks = {
-		.malloc_fn = cjet_malloc,
-		.free_fn = cjet_free
-	};
+	    .malloc_fn = cjet_malloc,
+	    .free_fn = cjet_free};
 	cJSON_InitHooks(&hooks);
 }

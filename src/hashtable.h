@@ -82,7 +82,7 @@
 #define HASHTABLE_SUCCESS 0
 #define HASHTABLE_FULL -1
 #define HASHTABLE_KEYINVAL -2
-#define HASHTABLE_INVALIDENTRY	-1
+#define HASHTABLE_INVALIDENTRY -1
 
 static const uint32_t hash32_magic = 2654435769U;
 static const uint64_t hash64_magic = 0xd43ece626aa9260aULL;
@@ -101,6 +101,7 @@ static const uint64_t hash64_magic = 0xd43ece626aa9260aULL;
  * string" and type "const char *". Please see also
  * DECLARE_HASHTABLE_STRING.
  */
+
 #if defined(_MSC_VER)
 #define DECLARE_HASHTABLE(name, order, type_name, type, value_entries) \
 \
@@ -440,83 +441,75 @@ static inline int hashtable_remove_##name(struct hashtable_##type_name *table, t
 }
 #endif
 
+#define DECLARE_HASHTABLE_STRING(name, order, value_entries)                \
+	struct value_##name {                                               \
+		void *vals[value_entries];                                  \
+	};                                                                  \
+	struct hashtable_string {                                           \
+		uint32_t hop_info;                                          \
+		const char *key;                                            \
+		struct value_##name value;                                  \
+	};                                                                  \
+	static inline uint32_t hash_func_##name##_string(const char *key)   \
+	{                                                                   \
+		uint32_t hash = 0;                                          \
+		uint32_t c = *key;                                          \
+		++key;                                                      \
+		while (c != 0) {                                            \
+			hash = ((c + (hash << 6U)) + (hash << 16U)) - hash; \
+			c = *key;                                           \
+			++key;                                              \
+		}                                                           \
+		hash = (hash * (hash32_magic)) >> (32U - (order));          \
+		return hash;                                                \
+	}                                                                   \
+	static inline int is_equal_string(const char *s1, const char *s2)   \
+	{                                                                   \
+		return !strcmp(s1, s2);                                     \
+	}                                                                   \
+	DECLARE_HASHTABLE(name, order, string, const char *, value_entries)
 
+#define DECLARE_HASHTABLE_UINT32(name, order, value_entries)             \
+	struct value_##name {                                            \
+		void *vals[value_entries];                               \
+	};                                                               \
+	struct hashtable_uint32_t {                                      \
+		uint32_t hop_info;                                       \
+		uint32_t key;                                            \
+		struct value_##name value;                               \
+	};                                                               \
+	static inline uint32_t hash_func_##name##_uint32_t(uint32_t key) \
+	{                                                                \
+		return ((key * (hash32_magic)) >> (32U - (order)));      \
+	}                                                                \
+                                                                         \
+	static inline int is_equal_uint32_t(uint32_t a, uint32_t b)      \
+	{                                                                \
+		return a == b;                                           \
+	}                                                                \
+                                                                         \
+	DECLARE_HASHTABLE(name, order, uint32_t, uint32_t, value_entries)
 
-#define DECLARE_HASHTABLE_STRING(name, order, value_entries) \
-struct value_##name { \
-	void *vals[value_entries]; \
-};\
-struct hashtable_string { \
-	uint32_t hop_info; \
-	const char *key; \
-	struct value_##name value; \
-}; \
-static inline uint32_t hash_func_##name##_string(const char* key) \
-{ \
-	uint32_t hash = 0; \
-	uint32_t c = *key; \
-	++key; \
-	while (c != 0) { \
-		hash = ((c + (hash << 6U)) + (hash << 16U)) - hash; \
-		c = *key; \
-		++key; \
-	} \
-	hash = (hash * (hash32_magic)) >> (32U - (order)); \
-	return hash; \
-} \
-static inline int is_equal_string(const char *s1, const char *s2) \
-{ \
-	return !strcmp(s1, s2); \
-} \
-DECLARE_HASHTABLE(name, order, string, const char *, value_entries)
-
-
-
-#define DECLARE_HASHTABLE_UINT32(name, order, value_entries) \
-struct value_##name { \
-	void *vals[value_entries]; \
-};\
-struct hashtable_uint32_t { \
-	uint32_t hop_info; \
-	uint32_t key; \
-	struct value_##name value; \
-}; \
-static inline uint32_t hash_func_##name##_uint32_t(uint32_t key) \
-{ \
-	return ((key * (hash32_magic)) >> (32U - (order))); \
-} \
-\
-static inline int is_equal_uint32_t(uint32_t a, uint32_t b) \
-{ \
-	return a == b; \
-} \
-\
-DECLARE_HASHTABLE(name, order, uint32_t, uint32_t, value_entries)
-
-
-
-#define DECLARE_HASHTABLE_UINT64(name, order, value_entries) \
-struct value_##name { \
-	void *vals[value_entries]; \
-};\
-struct hashtable_uint64_t { \
-	uint32_t hop_info; \
-	uint64_t key; \
-	struct value_##name value; \
-}; \
-static inline uint32_t hash_func_##name##_uint64_t(uint64_t key) \
-{ \
-	return (uint32_t)((key * (hash64_magic)) >> (64 - (order))); \
-} \
-\
-static inline int is_equal_uint64_t(uint64_t a, uint64_t b) \
-{ \
-	return a == b; \
-} \
-\
-DECLARE_HASHTABLE(name, order, uint64_t, uint64_t, value_entries)
-
-
+#define DECLARE_HASHTABLE_UINT64(name, order, value_entries)                 \
+	struct value_##name {                                                \
+		void *vals[value_entries];                                   \
+	};                                                                   \
+	struct hashtable_uint64_t {                                          \
+		uint32_t hop_info;                                           \
+		uint64_t key;                                                \
+		struct value_##name value;                                   \
+	};                                                                   \
+	static inline uint32_t hash_func_##name##_uint64_t(uint64_t key)     \
+	{                                                                    \
+		return (uint32_t)((key * (hash64_magic)) >> (64 - (order))); \
+	}                                                                    \
+                                                                             \
+	static inline int is_equal_uint64_t(uint64_t a, uint64_t b)          \
+	{                                                                    \
+		return a == b;                                               \
+	}                                                                    \
+                                                                             \
+	DECLARE_HASHTABLE(name, order, uint64_t, uint64_t, value_entries)
 
 /*
  * Creates a hash table.
@@ -527,7 +520,7 @@ DECLARE_HASHTABLE(name, order, uint64_t, uint64_t, value_entries)
 /*
  * Destroys a hash table.
  */
-#define HASHTABLE_DELETE(name, table) \
+#define HASHTABLE_DELETE(name, table)     \
 	hashtable_delete_##name((table)); \
 	table = NULL
 
