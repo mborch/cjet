@@ -38,8 +38,7 @@ int epoll_create(int size)
 	epoll_fd->max_size = size;
 	epoll_fd->fds = (struct fd_t*)malloc(sizeof(*(epoll_fd->fds)) * size);
 	InitializeCriticalSectionAndSpinCount(&epoll_fd->lock, 4000);
-
-
+	
 	memset(epoll_fd->fds, 0, sizeof(*(epoll_fd->fds)) * size);
 	for (int i = 0; i < size; ++i) {
 		epoll_fd->fds[i].fd = INVALID_SOCKET;
@@ -52,7 +51,7 @@ int epoll_create(int size)
 static int epoll_ctl_add(struct epoll_fd* epoll_fd, int fd, struct epoll_event* event)
 {
 	//assert(!(event->events & EPOLLET));
-	//assert(!(event->events & EPOLLONESHOT));
+	assert(!(event->events & EPOLLONESHOT));
 
 	unsigned long hl;
 	if (WSANtohl(fd, 1, &hl) == SOCKET_ERROR && WSAGetLastError() == WSAENOTSOCK)
@@ -60,7 +59,7 @@ static int epoll_ctl_add(struct epoll_fd* epoll_fd, int fd, struct epoll_event* 
 
 	for (int i = 0; i < epoll_fd->max_size; ++i) {
 		//assert(!(event->events & EPOLLET));
-		//assert(!(event->events & EPOLLONESHOT));
+		assert(!(event->events & EPOLLONESHOT));
 		
 		if (epoll_fd->fds[i].fd == fd)
 			return EEXIST;
@@ -80,7 +79,7 @@ static int epoll_ctl_add(struct epoll_fd* epoll_fd, int fd, struct epoll_event* 
 
 static int epoll_ctl_mod(struct epoll_fd* epoll_fd, int fd, struct epoll_event* event)
 {
-	assert(!(event->events & EPOLLET));
+	//assert(!(event->events & EPOLLET));
 	assert(!(event->events & EPOLLONESHOT));
 
 	for (int i = 0; i < epoll_fd->max_size; ++i) {
@@ -202,7 +201,7 @@ int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeout)
 	LeaveCriticalSection(&epoll_fd->lock);
 
 	struct timeval wait_time = { timeout / 1000, 1000 * (timeout % 1000) };
-	int total = select(1, &epoll_fd->readfds, &epoll_fd->writefds, &epoll_fd->exceptfds, timeout >= 0 ? &wait_time : NULL);
+	int total = select(1, &epoll_fd->readfds, &epoll_fd->writefds, &epoll_fd->exceptfds, &wait_time);
 	if (total == 0)
 		return 0;
 

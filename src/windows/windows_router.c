@@ -1,28 +1,28 @@
 /*
- *The MIT License (MIT)
- *
- * Copyright (c) <2017> <Stephan Gatzka and Mathieu Borchardt>
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+*The MIT License (MIT)
+*
+* Copyright (c) <2017> <Stephan Gatzka and Mathieu Borchardt>
+*
+* Permission is hereby granted, free of charge, to any person obtaining
+* a copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+* BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+* ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 #include <stddef.h>
 #include <stdio.h>
@@ -35,7 +35,6 @@
 #include "peer.h"
 #include "response.h"
 #include "windows_router.h"
-#include "timer.h"
 
 static unsigned int uuid = 0;
 
@@ -151,11 +150,11 @@ struct routing_request *alloc_routing_request(const struct peer *requesting_peer
 		request->owner_peer = owner_peer;
 		request->origin_request_id = origin_request_id_copy;
 		fill_routed_request_id(request->id, size_for_id, requesting_peer, origin_request_id);
+
+		request->timerItself = NULL;
+		InitializeCriticalSection(&request->cs);
 	}
 
-	request->timerItself = NULL;
-	request->timerWorks = 0;
-	InitializeCriticalSection(&request->cs);
 	return request;
 
 duplicate_id_failed:
@@ -176,7 +175,6 @@ static int format_and_send_response(const struct peer *p, const cJSON *response)
 		return -1;
 	}
 }
-
 
 static void request_timeout_handler(void *context, bool cancelled)
 {
@@ -247,9 +245,7 @@ int setup_routing_information(struct element *e, const cJSON *request, const cJS
 	LARGE_INTEGER due_time;
 	int64_t timeout_100ns = timeout_ns * 100;
 	timeout_100ns = -timeout_100ns;
-
 	memcpy(&due_time, &timeout_100ns, sizeof(LARGE_INTEGER));
-
 	if (!SetWaitableTimer(routing_request->timerItself, &due_time, 0, TimerAPCProc, routing_request, FALSE))
 	{
 		*response = create_error_response_from_request(routing_request->requesting_peer, request, INTERNAL_ERROR, "reason", "could not start timer for routing request");
@@ -388,4 +384,3 @@ void remove_routing_info_from_peer(const struct peer *p)
 		}
 	}
 }
-

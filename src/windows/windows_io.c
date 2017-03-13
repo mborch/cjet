@@ -27,6 +27,7 @@
 #include <WS2tcpip.h>
 #include <io.h>
 #include <signal.h>
+#include <mstcpip.h>
 
 #include "windows/windows_io.h"
 
@@ -61,11 +62,22 @@ static int set_fd_non_blocking(SOCKET fd)
 	return 0;
 }
 
-static int configure_keepalive(SOCKET fd)
+static int configure_keepalive(int fd)
 {
 	int opt = 1;
 	if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt)) != 0) {
 		log_err("error setting socket option %s\n", "SO_KEEPALIVE");
+		return -1;
+	}
+
+	struct tcp_keepalive vals;
+	vals.onoff = 1;
+	vals.keepalivetime = 3 * 1000;
+	vals.keepaliveinterval = 12 * 1000;
+	DWORD outputBytes;
+	if (WSAIoctl(fd, SIO_KEEPALIVE_VALS, &vals, sizeof(vals), NULL, 0, &outputBytes, NULL, NULL))
+	{
+		log_err("error setting socket option %s\n", "SIO_KEEPALIVE_VALS");
 		return -1;
 	}
 
@@ -422,7 +434,7 @@ static int drop_privileges()
 	HANDLE hProcess = GetCurrentProcess();
 	if (OpenProcessToken(hProcess, TOKEN_ADJUST_PRIVILEGES, &hProcessToken))
 	{
-		// TRUE = disable all privilieges
+		// TRUE = disable all privileges
 		if (AdjustTokenPrivileges(hProcessToken, TRUE, NULL, 0, 0, 0) == 1) {
 			bResult = 0;
 		}

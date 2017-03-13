@@ -27,7 +27,7 @@
 #include <WinSock2.h>
 #include <errno.h>
 
-#include "windows/epoll/epoll.h"
+#include "windows/epoll.h"
 #include "windows/eventloop_epoll.h"
 #include "compiler.h"
 #include "eventloop.h"
@@ -38,7 +38,6 @@ static enum eventloop_return handle_events(int num_events, struct epoll_event *e
 {
 	if (unlikely(num_events == -1)) {
 		if (errno == WSAEINTR) {
-			printf("%d", errno);
 			return EL_CONTINUE_LOOP;
 		}
 		else {
@@ -84,7 +83,7 @@ static enum eventloop_return handle_events(int num_events, struct epoll_event *e
 int eventloop_epoll_init(void *this_ptr)
 {
 	struct eventloop_epoll *loop = this_ptr;
-	loop->epoll_fd = epoll_create();
+	loop->epoll_fd = epoll_create(CONFIG_MAX_EPOLL_EVENTS * 2);
 	if (loop->epoll_fd < 0) {
 		return -1;
 	}
@@ -100,10 +99,10 @@ void eventloop_epoll_destroy(const void *this_ptr)
 int eventloop_epoll_run(const void *this_ptr, const int *go_ahead)
 {
 	const struct eventloop_epoll *loop = this_ptr;
-	struct epoll_event events[CONFIG_MAX_EPOLL_EVENTS];
+	struct epoll_event events[CONFIG_MAX_EPOLL_EVENTS * 2];
 
 	while (likely(*go_ahead)) {
-		int num_events = epoll_wait(loop->epoll_fd, events, CONFIG_MAX_EPOLL_EVENTS, -1);
+		int num_events = epoll_wait(loop->epoll_fd, events, CONFIG_MAX_EPOLL_EVENTS * 2, -1);
 		if (unlikely(handle_events(num_events, events) == EL_ABORT_LOOP)) {
 			return -1;
 			break;
@@ -115,11 +114,12 @@ int eventloop_epoll_run(const void *this_ptr, const int *go_ahead)
 enum eventloop_return eventloop_epoll_add(const void *this_ptr, const struct io_event *ev)
 {
 	const struct eventloop_epoll *loop = this_ptr;
-	struct epoll_event epoll_ev;
 
+	struct epoll_event epoll_ev;
 	memset(&epoll_ev, 0, sizeof(epoll_ev));
 	epoll_ev.data.ptr = (void *)ev;
-	epoll_ev.events = EPOLLIN | EPOLLOUT;// | EPOLLET;
+	epoll_ev.events = EPOLLIN | EPOLLOUT | EPOLLET;
+
 	if (unlikely(epoll_ctl(loop->epoll_fd, EPOLL_CTL_ADD, ev->sock, &epoll_ev) < 0)) {
 		log_err("epoll_ctl failed!\n");
 		return EL_ABORT_LOOP;
@@ -130,5 +130,6 @@ enum eventloop_return eventloop_epoll_add(const void *this_ptr, const struct io_
 void eventloop_epoll_remove(const void *this_ptr, const struct io_event *ev)
 {
 	const struct eventloop_epoll *loop = this_ptr;
+
 	epoll_ctl(loop->epoll_fd, EPOLL_CTL_DEL, ev->sock, NULL);
 }

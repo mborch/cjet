@@ -78,9 +78,6 @@
     <ClCompile Include="..\..\src\table.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\timer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\websocket.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -120,16 +117,19 @@
     <ClCompile Include="..\..\src\windows\syslogc.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\epoll\epoll.c">
-      <Filter>Source Files\windows\epoll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\windows\windows_router.c">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\windows\mman.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\windows\auth_file.c">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\windows_router.c">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\epoll.c">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
   </ItemGroup>

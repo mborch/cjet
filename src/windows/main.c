@@ -71,12 +71,9 @@ int main(int argc, char **argv)
 
 	for (int i = 1; i < argc; i++) {
 		if (i == 1 && strcmp(argv[i], "-?") == 0) {
-			fprintf(stderr, "Usage: %s [-l] [-f] [-r <request target>] [-u <username>] [-p <password file>]\n", argv[0]);
+			fprintf(stderr, "Usage: %s [-l] [-r <request target>] [-u <username>] [-p <password file>]\n", argv[0]);
 			ret = EXIT_FAILURE;
 			goto getopt_failed;
-		}
-		if (strcmp(argv[i], "-f") == 0) {
-			config.run_foreground = true;
 		}
 		else if (strcmp(argv[i], "-l") == 0) {
 			config.bind_local_only = true;
@@ -91,7 +88,7 @@ int main(int argc, char **argv)
 			config.user_name = argv[++i];
 		}
 	}
-
+		
 	if (load_passwd_data(config.passwd_file) < 0) {
 		log_err("Cannot load password file!\n");
 		ret = EXIT_FAILURE;

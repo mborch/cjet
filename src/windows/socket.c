@@ -73,7 +73,7 @@ ssize_t socket_writev(socket_type sock, struct socket_io_vector *io_vec, size_t 
 			send_len = -1;
 		}
 	}
-	
+
 	return send_len;
 }
 
