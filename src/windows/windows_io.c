@@ -476,7 +476,7 @@ static int run_io_only_local(struct eventloop *loop, const struct cmdline_config
 		return -1;
 	}
 	// start jet server on ipv4 loopback 
-	SOCKET ipv4_jet_fd = create_server_socket_bound("172.19.204.229", CONFIG_JET_PORT); //172.19.204.229
+	SOCKET ipv4_jet_fd = create_server_socket_bound("127.0.0.1", CONFIG_JET_PORT); 
 	if (ipv4_jet_fd == INVALID_SOCKET) {
 		ret = -1;
 		goto create_ipv4_jet_socket_failed;
@@ -522,7 +522,7 @@ static int run_io_only_local(struct eventloop *loop, const struct cmdline_config
 	}
 
 	// start websocket jet server on ipv4 loopback
-	SOCKET ipv4_http_fd = create_server_socket_bound("172.19.204.229", CONFIG_JETWS_PORT); //172.19.204.229
+	SOCKET ipv4_http_fd = create_server_socket_bound("127.0.0.1", CONFIG_JETWS_PORT); 
 	if (ipv4_http_fd == INVALID_SOCKET) {
 		ret = -1;
 		goto create_ipv4_jetws_socket_failed;

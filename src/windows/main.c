@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 
 	struct cmdline_config config = {
 		.run_foreground = false,
-		.bind_local_only = true,
+		.bind_local_only = false,
 		.user_name = NULL,
 		.passwd_file = NULL,
 		.request_target = "/api/jet/",

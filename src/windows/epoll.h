@@ -1,5 +1,5 @@
-#ifndef EPOLL_H
-#define EPOLL_H
+#ifndef CJET_WINDOWS_EPOLL_H
+#define CJET_WINDOWS_EPOLL_H
 
 /* At this time, epoll on Windows only supports socket descriptors,
 not file descriptors, *and not epoll descriptors*.
@@ -104,4 +104,4 @@ Applications should call this function exactly once before closing.
 */
 void epoll_cleanup();
 
-#endif /* EPOLL_H */
+#endif /* CJET_WINDOWS_EPOLL_H */
