@@ -27,7 +27,7 @@
 #ifndef CJET_COMPILER_H
 #define CJET_COMPILER_H
 
-#if defined(__GNUC__)
+#ifdef __GNUC__
 
 #define likely(x) \
 	__builtin_expect((x), 1)
@@ -37,7 +37,7 @@
 #define ATTRIBUTE_FORMAT_AUTOSPRINTF() \
   __attribute__ ((format (printf, 2, 3)))
 
-#else defined(_MSC_VER)
+#elif _MSC_VER
 
 #define likely(x) \
 	(x)
