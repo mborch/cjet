@@ -1,37 +1,35 @@
 /*
- *The MIT License (MIT)
- *
- * Copyright (c) <2014> <Stephan Gatzka>
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+*The MIT License (MIT)
+*
+* Copyright (c) <2014> <Stephan Gatzka>
+*
+* Permission is hereby granted, free of charge, to any person obtaining
+* a copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+*
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+* BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+* ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 #include <stdbool.h>
 #include <string.h>
 
 #if defined(_MSC_VER)
-#include "windows/windows_io.h"
 #include "windows/windows_router.h"
 #else
-#include "linux/linux_io.h"
 #include "router.h"
 #endif
 
@@ -88,7 +86,8 @@ static int fill_access(struct element *e, const cJSON *request, const struct pee
 		if (ret < 0) {
 			return -1;
 		}
-	} else {
+	}
+	else {
 		ret = fill_call_groups(e, p, request, access, response);
 		if (ret < 0) {
 			return -1;
@@ -159,7 +158,8 @@ static int init_element(struct element *e, const cJSON *request, struct peer *p,
 	uint64_t timeout_nsec = get_timeout_in_nsec(p, request, timeout, response, convert_seconds_to_nsec(CONFIG_ROUTED_MESSAGES_TIMEOUT));
 	if (unlikely(timeout_nsec == 0)) {
 		return -1;
-	} else {
+	}
+	else {
 		e->timeout_nsec = timeout_nsec;
 	}
 
@@ -223,7 +223,7 @@ static struct element *alloc_element(const struct peer *p)
 	struct element *e = cjet_calloc(1, sizeof(*e));
 	if (unlikely(e == NULL)) {
 		log_peer_err(p, "Could not allocate memory for %s object!\n",
-		             "element");
+			"element");
 	}
 
 	return e;
@@ -244,7 +244,8 @@ bool element_is_fetch_only(const struct element *e)
 {
 	if ((e->flags & FETCH_ONLY_FLAG) == FETCH_ONLY_FLAG) {
 		return true;
-	} else {
+	}
+	else {
 		return false;
 	}
 }
@@ -319,19 +320,19 @@ cJSON *set_or_call(const struct peer *p, const cJSON *request, enum type what)
 	}
 
 	if (unlikely(((what == STATE) && (e->value == NULL)) ||
-	             ((what == METHOD) && (e->value != NULL)))) {
+		((what == METHOD) && (e->value != NULL)))) {
 		return create_error_response_from_request(p, request, INVALID_PARAMS, "set/call on element not possible", path);
 	}
 
 	if (((what == STATE) && (!has_access(e->set_groups, p->set_groups))) ||
-	    ((what == METHOD) && (!has_access(e->call_groups, p->call_groups)))) {
+		((what == METHOD) && (!has_access(e->call_groups, p->call_groups)))) {
 		return create_error_response_from_request(p, request, INVALID_PARAMS, "request not authorized", path);
 	}
 
 	const cJSON *origin_request_id = cJSON_GetObjectItem(request, "id");
 	if ((origin_request_id != NULL) &&
-	    ((origin_request_id->type != cJSON_String) &&
-	     (origin_request_id->type != cJSON_Number))) {
+		((origin_request_id->type != cJSON_String) &&
+		(origin_request_id->type != cJSON_Number))) {
 		return create_error_response_from_request(p, request, INVALID_PARAMS, "request id is neither string nor number", path);
 	}
 
@@ -347,7 +348,8 @@ cJSON *set_or_call(const struct peer *p, const cJSON *request, enum type what)
 			response = create_error_response_from_request(p, request, INVALID_PARAMS, "reason", "no value found");
 			goto no_value_found;
 		}
-	} else {
+	}
+	else {
 		value = cJSON_GetObjectItem(params, "args");
 	}
 
@@ -369,7 +371,7 @@ cJSON *set_or_call(const struct peer *p, const cJSON *request, enum type what)
 	}
 
 	if (unlikely(e->peer->send_message(e->peer, rendered_message,
-	                                   strlen(rendered_message)) != 0)) {
+		strlen(rendered_message)) != 0)) {
 		response = create_error_response_from_request(p, request, INTERNAL_ERROR, "reason", "could not send routing information");
 	}
 
@@ -443,7 +445,7 @@ cJSON *remove_element_from_peer(const struct peer *p, const cJSON *request)
 
 	struct list_head *item;
 	struct list_head *tmp;
-	list_for_each_safe (item, tmp, &p->element_list) {
+	list_for_each_safe(item, tmp, &p->element_list) {
 		struct element *e = list_entry(item, struct element, element_list);
 		if (strcmp(e->path, path) == 0) {
 			remove_element(e);
@@ -458,7 +460,7 @@ void remove_all_elements_from_peer(struct peer *p)
 {
 	struct list_head *item;
 	struct list_head *tmp;
-	list_for_each_safe (item, tmp, &p->element_list) {
+	list_for_each_safe(item, tmp, &p->element_list) {
 		struct element *e = list_entry(item, struct element, element_list);
 		remove_element(e);
 	}

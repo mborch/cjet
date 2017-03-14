@@ -24,10 +24,7 @@
  * SOFTWARE.
  */
 
-#if defined(_MSC_VER)
 #include <malloc.h>
-#endif
-
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -592,7 +589,6 @@ int websocket_send_pong_frame(const struct websocket *s, uint8_t *payload, size_
 	return send_frame(s, payload, length, WS_PONG_FRAME);
 }
 
-#if defined(_MSC_VER)
 int websocket_send_close_frame(const struct websocket *s, enum ws_status_code status_code, const char *payload, size_t length)
 {
 	uint16_t code = status_code;
@@ -604,19 +600,6 @@ int websocket_send_close_frame(const struct websocket *s, enum ws_status_code st
 	}
 	return send_frame(s, buffer, length + sizeof(code), WS_CLOSE_FRAME);
 }
-#else
-int websocket_send_close_frame(const struct websocket *s, enum ws_status_code status_code, const char *payload, size_t length)
-{
-	uint16_t code = status_code;
-	uint8_t buffer[length + sizeof(code)];
-	code = jet_htobe16(code);
-	memcpy(buffer, &code, sizeof(code));
-	if (length > 0) {
-		memcpy(buffer + sizeof(code), payload, length);
-	}
-	return send_frame(s, buffer, length + sizeof(code), WS_CLOSE_FRAME);
-}
-#endif
 
 int websocket_init(struct websocket *ws, struct http_connection *connection, bool is_server, void (*on_error)(struct websocket *s), const char *sub_protocol)
 {

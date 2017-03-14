@@ -27,18 +27,24 @@
 #ifndef CJET_COMPILER_H
 #define CJET_COMPILER_H
 
-#ifdef __GNUC__
+#if defined(__GNUC__)
 
 #define likely(x) \
 	__builtin_expect((x), 1)
 #define unlikely(x) \
 	__builtin_expect((x), 0)
 
-#else
+#define ATTRIBUTE_FORMAT_AUTOSPRINTF() \
+  __attribute__ ((format (printf, 2, 3)))
+
+#else defined(_MSC_VER)
 
 #define likely(x) \
 	(x)
 #define unlikely(x) \
+	(x)
+
+#define ATTRIBUTE_FORMAT_AUTOSPRINTF() \
 	(x)
 
 #endif

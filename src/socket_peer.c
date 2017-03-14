@@ -26,14 +26,8 @@
 
 #if defined(_MSC_VER)
 #include <WinSock2.h>
-#include <io.h>
-
-#include "windows/windows_router.h"
 #else
 #include <arpa/inet.h>
-#include <unistd.h>
-
-#include "router.h"
 #endif
 #include <stdint.h>
 

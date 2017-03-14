@@ -26,14 +26,8 @@
 
 #if defined(_MSC_VER)
 #include <WinSock2.h>
-#include <io.h>
-
-#include "windows/windows_router.h"
 #else
 #include <arpa/inet.h>
-#include <unistd.h>
-
-#include "router.h"
 #endif
 
 #include <stdarg.h>
@@ -141,9 +135,8 @@ void destroy_all_peers(void)
 }
 
 #define LOG_BUFFER_SIZE 100
-#if !defined(_MSC_VER)
-__attribute__((format(printf, 2, 3)))
-#endif
+
+AUTOSPRINTF_ATTRIBUTE_FORMAT();
 void log_peer_err(const struct peer *p, const char *fmt, ...)
 {
 	int written;
@@ -158,9 +151,8 @@ void log_peer_err(const struct peer *p, const char *fmt, ...)
 	log_err("%s", buffer);
 }
 
-#if !defined(_MSC_VER)
-__attribute__((format(printf, 2, 3)))
-#endif
+
+AUTOSPRINTF_ATTRIBUTE_FORMAT();
 void log_peer_info(const struct peer *p, const char *fmt, ...)
 {
 	int written;

@@ -28,14 +28,6 @@
 #include <stdint.h>
 #include <string.h>
 
-#if defined(_MSC_VER)
-#include "windows/windows_io.h"
-#include "windows/windows_router.h"
-#else
-#include "linux/linux_io.h"
-#include "router.h"
-#endif
-
 #include "alloc.h"
 #include "authenticate.h"
 #include "compiler.h"

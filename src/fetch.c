@@ -24,12 +24,6 @@
 * SOFTWARE.
 */
 
-#if defined(_MSC_VER)
-#include "windows/windows_io.h"
-#else
-#include "linux/linux_io.h"
-#endif
-
 #include <stddef.h>
 #include <string.h>
 

@@ -34,6 +34,7 @@
 #include <stddef.h>
 #include <sys/types.h>
 
+#include "compiler.h"
 #include "generated/os_config.h"
 
 #ifdef __cplusplus

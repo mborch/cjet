@@ -24,12 +24,6 @@
  * SOFTWARE.
  */
 
-#if defined(_MSC_VER)
-#include <io.h>
-#else
-#include <unistd.h>
-#endif
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <sys/types.h>
