@@ -24,7 +24,7 @@
  * SOFTWARE.
  */
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #include <WinSock2.h>
 #else
 #include <arpa/inet.h>

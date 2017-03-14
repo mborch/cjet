@@ -1,4 +1,4 @@
-version: 1.1.0
+version: 1.1.0 {build}
 
 pull_requests:
   do_not_increment_build_number: true
@@ -10,9 +10,6 @@ configuration:
 
 platform: 
   - x86
-  
-environment:
-  VisualStudioVersion: 14.0.25420.1
 
 build:
   verbosity: minimal

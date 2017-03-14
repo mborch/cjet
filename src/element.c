@@ -27,7 +27,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #include "windows/windows_router.h"
 #else
 #include "router.h"
